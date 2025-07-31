@@ -79,7 +79,7 @@ async def get_random_quote(response: Response):
 
 
 @router.get("/quotes", response_model=List[Quote])
-async def get_all_quotes(character: Optional[str] = None, response: Response):
+async def get_all_quotes(response: Response, character: Optional[str] = None):
     """Get all quotes, optionally filtered by character"""
     for key, value in STATIC_CACHE.items():
         response.headers[key] = value
