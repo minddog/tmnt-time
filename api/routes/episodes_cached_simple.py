@@ -1,0 +1,147 @@
+from fastapi import APIRouter, Query, HTTPException, Response
+from typing import List, Optional
+from api.models import Episode, Quote, Weapon
+from api.edge_config_client import edge_config
+import random
+
+router = APIRouter()
+
+# Cache headers
+STATIC_CACHE = {
+    "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+    "CDN-Cache-Control": "max-age=3600"
+}
+
+DYNAMIC_CACHE = {
+    "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300", 
+    "CDN-Cache-Control": "max-age=60"
+}
+
+
+@router.get("/episodes", response_model=List[Episode])
+async def get_episodes(
+    response: Response,
+    season: Optional[int] = Query(None, ge=1, le=10),
+    limit: Optional[int] = Query(10, ge=1, le=100),
+    offset: Optional[int] = Query(0, ge=0)
+):
+    """Get episodes with optional filtering and pagination"""
+    for key, value in DYNAMIC_CACHE.items():
+        response.headers[key] = value
+    
+    episodes_data = edge_config.get('episodes')
+    if not episodes_data:
+        from api.data.tmnt_data import EPISODES
+        episodes_data = [ep.dict() for ep in EPISODES]
+    
+    filtered_episodes = episodes_data
+    
+    if season:
+        filtered_episodes = [ep for ep in filtered_episodes if ep['season'] == season]
+    
+    start = offset
+    end = offset + limit
+    return filtered_episodes[start:end]
+
+
+@router.get("/episodes/{episode_id}", response_model=Episode)
+async def get_episode_by_id(episode_id: int, response: Response):
+    """Get a specific episode by ID"""
+    for key, value in STATIC_CACHE.items():
+        response.headers[key] = value
+    
+    episodes_data = edge_config.get('episodes')
+    if not episodes_data:
+        from api.data.tmnt_data import EPISODES
+        episodes_data = [ep.dict() for ep in EPISODES]
+    
+    for episode in episodes_data:
+        if episode['id'] == episode_id:
+            return episode
+    
+    raise HTTPException(status_code=404, detail=f"Episode {episode_id} not found")
+
+
+@router.get("/quotes/random", response_model=Quote)
+async def get_random_quote(response: Response):
+    """Get a random TMNT quote - no cache for randomness"""
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    
+    quotes_data = edge_config.get('quotes')
+    if not quotes_data:
+        from api.data.tmnt_data import QUOTES
+        quotes_data = [q.dict() for q in QUOTES]
+    
+    return random.choice(quotes_data)
+
+
+@router.get("/quotes", response_model=List[Quote])
+async def get_all_quotes(response: Response, character: Optional[str] = None):
+    """Get all quotes, optionally filtered by character"""
+    for key, value in STATIC_CACHE.items():
+        response.headers[key] = value
+    
+    quotes_data = edge_config.get('quotes')
+    if not quotes_data:
+        from api.data.tmnt_data import QUOTES
+        quotes_data = [q.dict() for q in QUOTES]
+    
+    if character:
+        return [q for q in quotes_data if q['character'].lower() == character.lower()]
+    return quotes_data
+
+
+@router.get("/weapons", response_model=List[Weapon])
+async def get_all_weapons(response: Response):
+    """Get all turtle weapons"""
+    for key, value in STATIC_CACHE.items():
+        response.headers[key] = value
+    
+    weapons_data = edge_config.get('weapons')
+    if not weapons_data:
+        from api.data.tmnt_data import WEAPONS
+        weapons_data = [w.dict() for w in WEAPONS]
+    
+    return weapons_data
+
+
+@router.get("/search")
+async def search_tmnt(response: Response, q: str = Query(..., min_length=2)):
+    """Search across all TMNT data"""
+    for key, value in DYNAMIC_CACHE.items():
+        response.headers[key] = value
+    
+    query = q.lower()
+    results = {
+        "turtles": [],
+        "villains": [],
+        "episodes": [],
+        "quotes": []
+    }
+    
+    config_data = edge_config.get_all()
+    
+    if 'turtles' in config_data:
+        for turtle in config_data['turtles'].values():
+            if (query in turtle['name'].lower() or 
+                query in turtle['weapon'].lower() or 
+                query in turtle['personality'].lower()):
+                results["turtles"].append(turtle)
+    
+    if 'villains' in config_data:
+        for villain in config_data['villains'].values():
+            if (query in villain['name'].lower() or 
+                query in villain['description'].lower()):
+                results["villains"].append(villain)
+    
+    if 'episodes' in config_data:
+        for episode in config_data['episodes']:
+            if query in episode['title'].lower() or query in episode['synopsis'].lower():
+                results["episodes"].append(episode)
+    
+    if 'quotes' in config_data:
+        for quote in config_data['quotes']:
+            if query in quote['text'].lower() or query in quote['character'].lower():
+                results["quotes"].append(quote)
+    
+    return results
