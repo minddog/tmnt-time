@@ -131,14 +131,18 @@ async def search_tmnt(response: Response, q: str = Query(..., min_length=2)):
         for turtle in config_data['turtles'].values():
             if (query in turtle['name'].lower() or 
                 query in turtle['weapon'].lower() or 
-                query in turtle['personality'].lower()):
+                query in turtle['personality'].lower() or
+                query in turtle.get('favorite_pizza', '').lower() or
+                query in turtle.get('catchphrase', '').lower()):
                 results["turtles"].append(turtle)
     
     # Search villains
     if 'villains' in config_data:
         for villain in config_data['villains'].values():
             if (query in villain['name'].lower() or 
-                query in villain['description'].lower()):
+                query in villain['description'].lower() or
+                query in villain.get('real_name', '').lower() or
+                any(query in ability.lower() for ability in villain.get('abilities', []))):
                 results["villains"].append(villain)
     
     # Search episodes
