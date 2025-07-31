@@ -1,15 +1,17 @@
-from fastapi import FastAPI
+from http.server import BaseHTTPRequestHandler
+import json
 
-# Create the FastAPI app
-app = FastAPI()
-
-@app.get("/api")
-async def root():
-    return {"message": "Hello from TMNT API", "status": "working"}
-
-@app.get("/api/health")
-async def health():
-    return {"status": "healthy"}
-
-# This is the line Vercel needs
-handler = app
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        
+        response = {
+            'message': 'Hello from TMNT API',
+            'path': self.path,
+            'status': 'working'
+        }
+        
+        self.wfile.write(json.dumps(response).encode())
+        return
