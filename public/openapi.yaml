@@ -1,0 +1,603 @@
+openapi: 3.0.3
+info:
+  title: TMNT API
+  description: |
+    The ultimate Teenage Mutant Ninja Turtles API providing comprehensive data about turtles, villains, episodes, quotes, and weapons.
+    
+    ## Features
+    - 🐢 Complete turtle profiles with personalities and preferences
+    - 👹 Detailed villain information including abilities
+    - 📺 Episode guide with air dates and synopses
+    - 💬 Memorable quotes from the series
+    - ⚔️ Weapon specifications and special moves
+    - 🔍 Full-text search across all data
+    
+    ## Getting Started
+    The API requires no authentication for basic usage. Simply make requests to the endpoints below.
+  version: 1.0.0
+  contact:
+    name: TMNT API Support
+    url: https://github.com/anthropics/claude-code/issues
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://www.turtletime.dev/api/v1
+    description: Production server
+
+tags:
+  - name: Turtles
+    description: Operations related to the Ninja Turtles
+  - name: Villains
+    description: Operations related to TMNT villains
+  - name: Episodes
+    description: Episode information and guides
+  - name: Quotes
+    description: Memorable quotes from the series
+  - name: Weapons
+    description: Turtle weapons and equipment
+  - name: Search
+    description: Search functionality
+
+paths:
+  /turtles:
+    get:
+      tags:
+        - Turtles
+      summary: Get all turtles
+      description: Returns a list of all four Ninja Turtles with their complete profiles
+      operationId: getAllTurtles
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Turtle'
+              examples:
+                turtles:
+                  value:
+                    - name: leonardo
+                      full_name: Leonardo
+                      color: blue
+                      weapon: Katana
+                      personality: Leader, disciplined, responsible
+                      favorite_pizza: Pepperoni
+                      catchphrase: We strike hard and fade away into the night
+                      image_url: /images/leonardo.svg
+                    - name: donatello
+                      full_name: Donatello
+                      color: purple
+                      weapon: Bo Staff
+                      personality: Tech genius, inventor, problem solver
+                      favorite_pizza: Hawaiian
+                      catchphrase: Does machine!
+                      image_url: /images/donatello.svg
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /turtles/{name}:
+    get:
+      tags:
+        - Turtles
+      summary: Get a specific turtle
+      description: Returns detailed information about a specific turtle by name
+      operationId: getTurtleByName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: The turtle's name (lowercase)
+          schema:
+            type: string
+            enum: [leonardo, donatello, raphael, michelangelo]
+          examples:
+            leonardo:
+              value: leonardo
+            donatello:
+              value: donatello
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Turtle'
+        '404':
+          description: Turtle not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                detail: "Turtle 'splinter' not found"
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /villains:
+    get:
+      tags:
+        - Villains
+      summary: Get all villains
+      description: Returns a list of all TMNT villains with their profiles and abilities
+      operationId: getAllVillains
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Villain'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /villains/{name}:
+    get:
+      tags:
+        - Villains
+      summary: Get a specific villain
+      description: Returns detailed information about a specific villain by name
+      operationId: getVillainByName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: The villain's name (lowercase, underscores for spaces)
+          schema:
+            type: string
+            enum: [shredder, krang, bebop, rocksteady, baxter_stockman]
+          examples:
+            shredder:
+              value: shredder
+            baxter_stockman:
+              value: baxter_stockman
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Villain'
+        '404':
+          description: Villain not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /episodes:
+    get:
+      tags:
+        - Episodes
+      summary: Get episodes
+      description: Returns a paginated list of episodes with optional filtering by season
+      operationId: getEpisodes
+      parameters:
+        - name: season
+          in: query
+          description: Filter episodes by season number
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10
+          example: 1
+        - name: limit
+          in: query
+          description: Number of results per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - name: offset
+          in: query
+          description: Number of results to skip for pagination
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Episode'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /quotes/random:
+    get:
+      tags:
+        - Quotes
+      summary: Get a random quote
+      description: Returns a random quote from the TMNT series
+      operationId: getRandomQuote
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quote'
+              example:
+                id: 1
+                text: "Cowabunga!"
+                character: "Michelangelo"
+                context: "Battle cry"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /weapons:
+    get:
+      tags:
+        - Weapons
+      summary: Get all weapons
+      description: Returns a list of all turtle weapons with specifications
+      operationId: getAllWeapons
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Weapon'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /search:
+    get:
+      tags:
+        - Search
+      summary: Search across all data
+      description: Performs a full-text search across turtles, villains, episodes, quotes, and weapons
+      operationId: searchAll
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search query (minimum 2 characters)
+          schema:
+            type: string
+            minLength: 2
+          example: pizza
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResults'
+        '400':
+          description: Invalid search query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                detail: "Search query must be at least 2 characters"
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /health:
+    get:
+      tags:
+        - System
+      summary: Health check
+      description: Check if the API is running and healthy
+      operationId: healthCheck
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  version:
+                    type: string
+                    example: 1.0.0
+                  timestamp:
+                    type: string
+                    format: date-time
+
+components:
+  schemas:
+    Turtle:
+      type: object
+      required:
+        - name
+        - full_name
+        - color
+        - weapon
+        - personality
+        - favorite_pizza
+        - catchphrase
+        - image_url
+      properties:
+        name:
+          type: string
+          description: Lowercase identifier
+          example: leonardo
+        full_name:
+          type: string
+          description: Display name
+          example: Leonardo
+        color:
+          type: string
+          description: Bandana color
+          enum: [blue, purple, red, orange]
+          example: blue
+        weapon:
+          type: string
+          description: Primary weapon
+          example: Katana
+        personality:
+          type: string
+          description: Character traits
+          example: Leader, disciplined, responsible
+        favorite_pizza:
+          type: string
+          description: Pizza preference
+          example: Pepperoni
+        catchphrase:
+          type: string
+          description: Signature phrase
+          example: We strike hard and fade away into the night
+        image_url:
+          type: string
+          description: Path to character image
+          example: /images/leonardo.svg
+
+    Villain:
+      type: object
+      required:
+        - name
+        - real_name
+        - description
+        - abilities
+        - first_appearance
+        - image_url
+      properties:
+        name:
+          type: string
+          description: Lowercase identifier
+          example: shredder
+        real_name:
+          type: string
+          description: Character's real name
+          example: Oroku Saki
+        description:
+          type: string
+          description: Character description
+          example: The leader of the Foot Clan and arch-nemesis of the Turtles
+        abilities:
+          type: array
+          items:
+            type: string
+          description: List of abilities and skills
+          example: ["Master martial artist", "Strategic genius", "Bladed armor"]
+        first_appearance:
+          type: string
+          description: First episode appearance
+          example: "Episode 1: Turtle Tracks"
+        arch_enemy_of:
+          type: string
+          nullable: true
+          description: Primary enemy relationship
+          example: Splinter
+        image_url:
+          type: string
+          description: Path to character image
+          example: /images/shredder.svg
+
+    Episode:
+      type: object
+      required:
+        - id
+        - title
+        - season
+        - episode_number
+        - air_date
+        - synopsis
+        - villains_featured
+      properties:
+        id:
+          type: integer
+          description: Unique episode ID
+          example: 1
+        title:
+          type: string
+          description: Episode title
+          example: Turtle Tracks
+        season:
+          type: integer
+          description: Season number
+          example: 1
+        episode_number:
+          type: integer
+          description: Episode number within season
+          example: 1
+        air_date:
+          type: string
+          format: date
+          description: Original air date
+          example: "1987-12-14"
+        synopsis:
+          type: string
+          description: Episode summary
+          example: The Turtles make their first appearance and battle the Foot Clan
+        villains_featured:
+          type: array
+          items:
+            type: string
+          description: Villains appearing in episode
+          example: ["Shredder", "Foot Soldiers"]
+
+    Quote:
+      type: object
+      required:
+        - id
+        - text
+        - character
+        - context
+      properties:
+        id:
+          type: integer
+          description: Unique quote ID
+          example: 1
+        text:
+          type: string
+          description: The quote text
+          example: "Cowabunga!"
+        character:
+          type: string
+          description: Character who said it
+          example: Michelangelo
+        episode:
+          type: string
+          nullable: true
+          description: Episode reference
+        context:
+          type: string
+          description: Context or situation
+          example: Battle cry
+
+    Weapon:
+      type: object
+      required:
+        - name
+        - type
+        - wielder
+        - description
+        - special_moves
+      properties:
+        name:
+          type: string
+          description: Weapon name
+          example: Katana
+        type:
+          type: string
+          description: Weapon category
+          example: Sword
+        wielder:
+          type: string
+          description: Turtle who uses it
+          example: Leonardo
+        description:
+          type: string
+          description: Weapon description
+          example: Twin katana swords, symbols of leadership and honor
+        special_moves:
+          type: array
+          items:
+            type: string
+          description: List of special techniques
+          example: ["Double slice", "Spinning blade shield", "Precision strike"]
+
+    SearchResults:
+      type: object
+      properties:
+        turtles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Turtle'
+          description: Matching turtle results
+        villains:
+          type: array
+          items:
+            $ref: '#/components/schemas/Villain'
+          description: Matching villain results
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Episode'
+          description: Matching episode results
+        quotes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Quote'
+          description: Matching quote results
+        weapons:
+          type: array
+          items:
+            $ref: '#/components/schemas/Weapon'
+          description: Matching weapon results
+
+    Error:
+      type: object
+      required:
+        - detail
+      properties:
+        detail:
+          type: string
+          description: Error message
+          example: Resource not found
+
+    ValidationError:
+      type: object
+      required:
+        - detail
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            properties:
+              loc:
+                type: array
+                items:
+                  type: string
+                description: Field location
+              msg:
+                type: string
+                description: Error message
+              type:
+                type: string
+                description: Error type
+
+  responses:
+    BadRequest:
+      description: Bad request - Invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            detail: "Invalid request parameters"
+    
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+    
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            detail: "Internal server error"
+
+  securitySchemes: {}
+
+security: []
