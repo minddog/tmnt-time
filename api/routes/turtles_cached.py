@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Response
 from typing import List, Dict
 from api.models import Turtle
-from api.edge_config_client import edge_config
+from api.convex_client import convex_client
 import json
 import traceback
 import sys
@@ -18,22 +18,20 @@ CACHE_HEADERS = {
 
 @router.get("/turtles", response_model=List[Turtle])
 async def get_all_turtles(response: Response):
-    """Get all ninja turtles from Edge Config"""
+    """Get all ninja turtles from Convex"""
     try:
         # Set cache headers
         for key, value in CACHE_HEADERS.items():
             response.headers[key] = value
         
-        # Get data from Edge Config
-        turtles_data = edge_config.get('turtles')
+        # Get data from Convex
+        turtles_data = convex_client.get_turtles()
         if not turtles_data:
             # Log the issue
-            print(f"ERROR: No turtles data found in Edge Config", file=sys.stderr)
-            print(f"Edge Config URL: {edge_config.edge_config_url}", file=sys.stderr)
+            print(f"ERROR: No turtles data found in Convex", file=sys.stderr)
             raise HTTPException(status_code=500, detail="Failed to load turtle data")
         
-        # Convert dict to list
-        return list(turtles_data.values())
+        return turtles_data
     except Exception as e:
         # Log full traceback
         print(f"ERROR in get_all_turtles: {str(e)}", file=sys.stderr)
@@ -45,18 +43,14 @@ async def get_all_turtles(response: Response):
 
 @router.get("/turtles/{name}", response_model=Turtle)
 async def get_turtle_by_name(name: str, response: Response):
-    """Get a specific turtle by name from Edge Config"""
+    """Get a specific turtle by name from Convex"""
     # Set cache headers
     for key, value in CACHE_HEADERS.items():
         response.headers[key] = value
     
-    # Get data from Edge Config
-    turtles_data = edge_config.get('turtles')
-    if not turtles_data:
-        raise HTTPException(status_code=500, detail="Failed to load turtle data")
-    
-    turtle_name = name.lower()
-    if turtle_name not in turtles_data:
+    # Get data from Convex
+    turtle_data = convex_client.get_turtle(name.lower())
+    if not turtle_data:
         raise HTTPException(status_code=404, detail=f"Turtle '{name}' not found")
     
-    return turtles_data[turtle_name]
+    return turtle_data

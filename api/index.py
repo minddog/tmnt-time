@@ -5,14 +5,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes.turtles_cached import router as turtles_router
 from api.routes.villains_cached import router as villains_router
 from api.routes.episodes_cached import router as episodes_router
-from api.edge_config_client import edge_config
+from api.convex_client import convex_client
 import json
 
 # Create the FastAPI app instance here for Vercel
 app = FastAPI(
     title="TMNT API",
-    description="API for Teenage Mutant Ninja Turtles information - Powered by Vercel Edge Config",
-    version="2.0.0"
+    description="API for Teenage Mutant Ninja Turtles information - Powered by Convex",
+    version="3.0.0"
 )
 
 # Configure CORS
@@ -38,9 +38,9 @@ async def api_root(response: Response):
     
     return {
         "message": "Welcome to the TMNT API!",
-        "version": "2.0.0",
+        "version": "3.0.0",
         "features": {
-            "edge_config": "Data served from Vercel Edge Config",
+            "convex": "Data served from Convex database",
             "caching": "Responses cached at CDN edge",
             "performance": "Ultra-low latency"
         },
@@ -50,7 +50,6 @@ async def api_root(response: Response):
             "episodes": "/api/v1/episodes",
             "quotes": "/api/v1/quotes/random",
             "weapons": "/api/v1/weapons",
-            "search": "/api/v1/search?q=query",
             "docs": "/docs"
         }
     }
@@ -62,106 +61,56 @@ async def health_check(response: Response):
     # Don't cache health checks
     response.headers["Cache-Control"] = "no-cache"
     
-    # Check Edge Config connection
-    edge_status = "connected" if edge_config.edge_config_url else "fallback"
+    # Check Convex connection
+    convex_status = "connected" if convex_client._connected else "fallback"
     
     return {
         "status": "healthy",
         "service": "TMNT API",
-        "edge_config": edge_status,
-        "version": "2.0.0"
+        "convex": convex_status,
+        "version": "3.0.0"
     }
 
 
-@app.get("/api/edge-test")
-async def edge_test(response: Response):
-    """Test Edge Config access patterns"""
-    import urllib.request
-    import urllib.error
-    response.headers["Cache-Control"] = "no-cache"
-    
-    results = {}
-    
-    # Test 1: Direct root access
-    if edge_config.edge_config_url:
-        try:
-            req = urllib.request.Request(edge_config.edge_config_url)
-            with urllib.request.urlopen(req) as resp:
-                data = json.loads(resp.read().decode())
-                results["root_access"] = {
-                    "success": True,
-                    "keys": list(data.keys()) if isinstance(data, dict) else "not_dict",
-                    "items_type": type(data.get("items", {})).__name__ if "items" in data else None
-                }
-                
-                # Check if items contains our data
-                if "items" in data and isinstance(data["items"], dict):
-                    results["items_content"] = list(data["items"].keys())[:10]  # First 10 keys
-        except Exception as e:
-            results["root_access"] = {"success": False, "error": str(e)}
-    
-    # Test 2: Check what edge_config.get_all() returns
-    try:
-        all_data = edge_config.get_all()
-        results["get_all"] = {
-            "type": type(all_data).__name__,
-            "keys": list(all_data.keys())[:10] if isinstance(all_data, dict) else None
-        }
-    except Exception as e:
-        results["get_all"] = {"error": str(e)}
-    
-    return results
 
 
 @app.get("/api/debug")
 async def debug_endpoint(response: Response):
-    """Debug endpoint to check Edge Config and data"""
+    """Debug endpoint to check Convex connection and data"""
     import os
     import sys
     response.headers["Cache-Control"] = "no-cache"
     
-    # Get Edge Config URL (without token for security)
-    edge_url = os.environ.get('EDGE_CONFIG', 'Not set')
-    if edge_url != 'Not set':
-        edge_url = edge_url.split('?')[0] + '?token=***'
+    # Get Convex URL (without sensitive data for security)
+    convex_url = os.environ.get('CONVEX_URL', 'Not set')
+    if convex_url != 'Not set':
+        convex_url = convex_url.split('?')[0] + '?...'
     
-    # Try to get turtles data
+    # Try to get data from Convex
     turtles_data = None
-    all_data = None
-    raw_response = None
+    villains_data = None
+    episodes_count = None
     error = None
     try:
-        turtles_data = edge_config.get('turtles')
-        if turtles_data:
-            turtles_data = f"Loaded {len(turtles_data)} turtles"
-        else:
-            turtles_data = "No turtles data (returned None)"
+        turtles = convex_client.get_turtles()
+        turtles_data = f"Loaded {len(turtles)} turtles" if turtles else "No turtles data"
         
-        # Try to get all data to see what's available
-        all_data = edge_config.get_all()
-        if all_data:
-            all_data = list(all_data.keys()) if isinstance(all_data, dict) else "Not a dict"
+        villains = convex_client.get_villains()
+        villains_data = f"Loaded {len(villains)} villains" if villains else "No villains data"
         
-        # Try a raw request to see what Edge Config returns
-        if edge_config.edge_config_url:
-            import urllib.request
-            req = urllib.request.Request(f"{edge_config.edge_config_url}/item/turtles")
-            try:
-                with urllib.request.urlopen(req) as response:
-                    raw_response = f"Status: {response.status}, Headers: {dict(response.headers)}"
-            except urllib.error.HTTPError as e:
-                raw_response = f"HTTP Error {e.code}: {e.reason}"
+        episodes = convex_client.get_episodes()
+        episodes_count = f"Loaded {len(episodes)} episodes" if episodes else "No episodes data"
     except Exception as e:
         error = f"{type(e).__name__}: {str(e)}"
         import traceback
         error += "\n" + traceback.format_exc()
     
     return {
-        "edge_config_url": edge_url,
-        "edge_config_available": bool(edge_config.edge_config_url),
+        "convex_url": convex_url,
+        "convex_connected": convex_client._connected,
         "turtles_data": turtles_data,
-        "all_data_keys": all_data,
-        "raw_response": raw_response,
+        "villains_data": villains_data,
+        "episodes_count": episodes_count,
         "error": error,
         "python_version": sys.version
     }

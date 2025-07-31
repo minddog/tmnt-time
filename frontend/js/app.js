@@ -58,9 +58,6 @@ if (document.getElementById('randomQuoteBtn')) {
 
     // Load weapons on homepage
     loadWeapons();
-
-    // Setup search functionality
-    setupSearch();
 }
 
 // Load weapons for homepage
@@ -89,90 +86,6 @@ async function loadWeapons() {
     }
 }
 
-// Search functionality
-function setupSearch() {
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const searchResults = document.getElementById('searchResults');
-
-    if (!searchInput || !searchBtn) return;
-
-    const performSearch = async () => {
-        const query = searchInput.value.trim();
-        if (query.length < 2) {
-            alert('Please enter at least 2 characters to search');
-            return;
-        }
-
-        const results = await fetchAPI(`/search?q=${encodeURIComponent(query)}`);
-        if (results) {
-            displaySearchResults(results, searchResults);
-        }
-    };
-
-    searchBtn.addEventListener('click', performSearch);
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') performSearch();
-    });
-}
-
-function displaySearchResults(results, container) {
-    let html = '';
-
-    if (results.turtles.length > 0) {
-        html += `
-            <div class="search-result-section">
-                <h3>Turtles</h3>
-                ${results.turtles.map(turtle => `
-                    <div class="search-result-item">
-                        <strong>${turtle.full_name}</strong> - ${turtle.personality}
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    if (results.villains.length > 0) {
-        html += `
-            <div class="search-result-section">
-                <h3>Villains</h3>
-                ${results.villains.map(villain => `
-                    <div class="search-result-item">
-                        <strong>${villain.name}</strong> - ${villain.description}
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    if (results.episodes.length > 0) {
-        html += `
-            <div class="search-result-section">
-                <h3>Episodes</h3>
-                ${results.episodes.map(episode => `
-                    <div class="search-result-item">
-                        <strong>${episode.title}</strong> - ${episode.synopsis}
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    if (results.quotes.length > 0) {
-        html += `
-            <div class="search-result-section">
-                <h3>Quotes</h3>
-                ${results.quotes.map(quote => `
-                    <div class="search-result-item">
-                        "${quote.text}" - <em>${quote.character}</em>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    container.innerHTML = html || '<p>No results found.</p>';
-}
 
 // Turtles page functionality
 async function loadTurtles() {
@@ -365,7 +278,6 @@ function displayEpisodes(episodes, container) {
 
 function setupEpisodeFilters() {
     const seasonFilter = document.getElementById('seasonFilter');
-    const searchInput = document.getElementById('episodeSearch');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
 
@@ -393,20 +305,6 @@ function setupEpisodeFilters() {
         });
     }
 
-    if (searchInput) {
-        searchInput.addEventListener('input', debounce(async (e) => {
-            const query = e.target.value.trim();
-            if (query.length >= 2) {
-                const results = await fetchAPI(`/search?q=${encodeURIComponent(query)}`);
-                if (results && results.episodes.length > 0) {
-                    const container = document.getElementById('episodesContainer');
-                    displayEpisodes(results.episodes, container);
-                }
-            } else if (query.length === 0) {
-                loadEpisodes();
-            }
-        }, 300));
-    }
 }
 
 function updatePagination(itemCount) {
@@ -419,15 +317,3 @@ function updatePagination(itemCount) {
     if (pageInfo) pageInfo.textContent = `Page ${currentPage}`;
 }
 
-// Utility function for debouncing
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
