@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0f0f23"/>
+  
+  <!-- Gradient overlay -->
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff41;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#0f0f23;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grad)"/>
+  
+  <!-- Title -->
+  <text x="600" y="100" text-anchor="middle" font-family="Arial Black" font-size="60" fill="#00ff41">
+    MEET THE TURTLES
+  </text>
+  
+  <!-- Turtle Cards -->
+  <g transform="translate(150, 200)">
+    <!-- Leonardo Card -->
+    <rect x="0" y="0" width="200" height="280" rx="15" fill="#1e3a8a" opacity="0.8"/>
+    <circle cx="100" cy="80" r="50" fill="#4a7c59"/>
+    <rect x="50" y="70" width="100" height="20" fill="#2563eb" rx="10"/>
+    <text x="100" y="160" text-anchor="middle" font-family="Arial Black" font-size="24" fill="white">LEONARDO</text>
+    <text x="100" y="190" text-anchor="middle" font-family="Arial" font-size="16" fill="#94a3b8">Leader</text>
+    <text x="100" y="220" text-anchor="middle" font-family="Arial" font-size="14" fill="#60a5fa">⚔️ Katana</text>
+    <text x="100" y="250" text-anchor="middle" font-family="Arial" font-size="14" fill="#60a5fa">🍕 Pepperoni</text>
+  </g>
+  
+  <g transform="translate(350, 200)">
+    <!-- Donatello Card -->
+    <rect x="0" y="0" width="200" height="280" rx="15" fill="#7c3aed" opacity="0.8"/>
+    <circle cx="100" cy="80" r="50" fill="#4a7c59"/>
+    <rect x="50" y="70" width="100" height="20" fill="#8b5cf6" rx="10"/>
+    <text x="100" y="160" text-anchor="middle" font-family="Arial Black" font-size="24" fill="white">DONATELLO</text>
+    <text x="100" y="190" text-anchor="middle" font-family="Arial" font-size="16" fill="#94a3b8">Tech Genius</text>
+    <text x="100" y="220" text-anchor="middle" font-family="Arial" font-size="14" fill="#c084fc">🏒 Bo Staff</text>
+    <text x="100" y="250" text-anchor="middle" font-family="Arial" font-size="14" fill="#c084fc">🍕 Hawaiian</text>
+  </g>
+  
+  <g transform="translate(650, 200)">
+    <!-- Raphael Card -->
+    <rect x="0" y="0" width="200" height="280" rx="15" fill="#dc2626" opacity="0.8"/>
+    <circle cx="100" cy="80" r="50" fill="#4a7c59"/>
+    <rect x="50" y="70" width="100" height="20" fill="#ef4444" rx="10"/>
+    <text x="100" y="160" text-anchor="middle" font-family="Arial Black" font-size="24" fill="white">RAPHAEL</text>
+    <text x="100" y="190" text-anchor="middle" font-family="Arial" font-size="16" fill="#94a3b8">Hot-Head</text>
+    <text x="100" y="220" text-anchor="middle" font-family="Arial" font-size="14" fill="#f87171">🗡️ Sai</text>
+    <text x="100" y="250" text-anchor="middle" font-family="Arial" font-size="14" fill="#f87171">🍕 Meat Lovers</text>
+  </g>
+  
+  <g transform="translate(850, 200)">
+    <!-- Michelangelo Card -->
+    <rect x="0" y="0" width="200" height="280" rx="15" fill="#f97316" opacity="0.8"/>
+    <circle cx="100" cy="80" r="50" fill="#4a7c59"/>
+    <rect x="50" y="70" width="100" height="20" fill="#fb923c" rx="10"/>
+    <text x="100" y="160" text-anchor="middle" font-family="Arial Black" font-size="22" fill="white">MICHELANGELO</text>
+    <text x="100" y="190" text-anchor="middle" font-family="Arial" font-size="16" fill="#94a3b8">Party Dude</text>
+    <text x="100" y="220" text-anchor="middle" font-family="Arial" font-size="14" fill="#fed7aa">🥷 Nunchucks</text>
+    <text x="100" y="250" text-anchor="middle" font-family="Arial" font-size="14" fill="#fed7aa">🍕 Extra Cheese</text>
+  </g>
+  
+  <!-- Footer -->
+  <text x="600" y="550" text-anchor="middle" font-family="Arial" font-size="28" fill="#fbbf24">
+    "COWABUNGA!"
+  </text>
+</svg>
