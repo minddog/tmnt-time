@@ -46,18 +46,18 @@ class EdgeConfigClient:
             return self._cache.get(key)
         
         try:
-            # Edge Config URL already includes the token
-            url = f"{self.edge_config_url}/item/{key}"
-            req = urllib.request.Request(url)
+            # First, get all data from Edge Config
+            all_data = self.get_all()
             
-            with urllib.request.urlopen(req) as response:
-                data = json.loads(response.read().decode())
-                return data
-        except urllib.error.HTTPError as e:
-            if e.code == 404:
-                return None
-            # Fall back to cached data on error
-            return self._cache.get(key)
+            # Check if data is in the expected structure
+            if isinstance(all_data, dict):
+                # If the data has an 'items' key, look inside it
+                if 'items' in all_data and isinstance(all_data['items'], dict):
+                    return all_data['items'].get(key)
+                # Otherwise, check at the root level
+                return all_data.get(key)
+            
+            return None
         except Exception:
             # Fall back to cached data on any error
             return self._cache.get(key)

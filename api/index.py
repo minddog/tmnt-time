@@ -6,6 +6,7 @@ from api.routes.turtles_cached import router as turtles_router
 from api.routes.villains_cached import router as villains_router
 from api.routes.episodes_cached import router as episodes_router
 from api.edge_config_client import edge_config
+import json
 
 # Create the FastAPI app instance here for Vercel
 app = FastAPI(
@@ -70,6 +71,46 @@ async def health_check(response: Response):
         "edge_config": edge_status,
         "version": "2.0.0"
     }
+
+
+@app.get("/api/edge-test")
+async def edge_test(response: Response):
+    """Test Edge Config access patterns"""
+    import urllib.request
+    import urllib.error
+    response.headers["Cache-Control"] = "no-cache"
+    
+    results = {}
+    
+    # Test 1: Direct root access
+    if edge_config.edge_config_url:
+        try:
+            req = urllib.request.Request(edge_config.edge_config_url)
+            with urllib.request.urlopen(req) as resp:
+                data = json.loads(resp.read().decode())
+                results["root_access"] = {
+                    "success": True,
+                    "keys": list(data.keys()) if isinstance(data, dict) else "not_dict",
+                    "items_type": type(data.get("items", {})).__name__ if "items" in data else None
+                }
+                
+                # Check if items contains our data
+                if "items" in data and isinstance(data["items"], dict):
+                    results["items_content"] = list(data["items"].keys())[:10]  # First 10 keys
+        except Exception as e:
+            results["root_access"] = {"success": False, "error": str(e)}
+    
+    # Test 2: Check what edge_config.get_all() returns
+    try:
+        all_data = edge_config.get_all()
+        results["get_all"] = {
+            "type": type(all_data).__name__,
+            "keys": list(all_data.keys())[:10] if isinstance(all_data, dict) else None
+        }
+    except Exception as e:
+        results["get_all"] = {"error": str(e)}
+    
+    return results
 
 
 @app.get("/api/debug")
