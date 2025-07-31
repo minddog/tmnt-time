@@ -87,24 +87,40 @@ async def debug_endpoint(response: Response):
     # Try to get turtles data
     turtles_data = None
     all_data = None
+    raw_response = None
     error = None
     try:
         turtles_data = edge_config.get('turtles')
         if turtles_data:
             turtles_data = f"Loaded {len(turtles_data)} turtles"
+        else:
+            turtles_data = "No turtles data (returned None)"
         
         # Try to get all data to see what's available
         all_data = edge_config.get_all()
         if all_data:
             all_data = list(all_data.keys()) if isinstance(all_data, dict) else "Not a dict"
+        
+        # Try a raw request to see what Edge Config returns
+        if edge_config.edge_config_url:
+            import urllib.request
+            req = urllib.request.Request(f"{edge_config.edge_config_url}/item/turtles")
+            try:
+                with urllib.request.urlopen(req) as response:
+                    raw_response = f"Status: {response.status}, Headers: {dict(response.headers)}"
+            except urllib.error.HTTPError as e:
+                raw_response = f"HTTP Error {e.code}: {e.reason}"
     except Exception as e:
-        error = str(e)
+        error = f"{type(e).__name__}: {str(e)}"
+        import traceback
+        error += "\n" + traceback.format_exc()
     
     return {
         "edge_config_url": edge_url,
         "edge_config_available": bool(edge_config.edge_config_url),
         "turtles_data": turtles_data,
         "all_data_keys": all_data,
+        "raw_response": raw_response,
         "error": error,
         "python_version": sys.version
     }
