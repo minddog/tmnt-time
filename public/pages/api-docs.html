@@ -9,8 +9,8 @@
     <meta property="og:title" content="TMNT API Documentation - Build Your Own Client">
     <meta property="og:description" content="Complete REST API documentation for the TMNT API. Learn how to integrate turtle power into your applications!">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://vercel-python-nine-tau.vercel.app/pages/api-docs.html">
-    <meta property="og:image" content="https://vercel-python-nine-tau.vercel.app/images/og-image.svg">
+    <meta property="og:url" content="https://www.turtletime.dev/pages/api-docs.html">
+    <meta property="og:image" content="https://www.turtletime.dev/images/og-image.svg">
     <meta property="og:site_name" content="TMNT API Hub">
     
     <!-- Twitter Card Meta Tags -->
@@ -105,7 +105,7 @@
             <section id="base-url" class="api-section">
                 <h2>Base URL</h2>
                 <div class="code-block">
-                    <code>https://vercel-python-nine-tau.vercel.app/api/v1</code>
+                    <code>https://www.turtletime.dev/api/v1</code>
                 </div>
                 <p>All API endpoints are relative to this base URL.</p>
             </section>
@@ -127,7 +127,7 @@
                             <h4>Example Request</h4>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                                <pre><code>curl https://vercel-python-nine-tau.vercel.app/api/v1/turtles</code></pre>
+                                <pre><code>curl https://www.turtletime.dev/api/v1/turtles</code></pre>
                             </div>
                             
                             <h4>Example Response</h4>
@@ -187,7 +187,7 @@
                             <h4>Example Request</h4>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                                <pre><code>curl https://vercel-python-nine-tau.vercel.app/api/v1/turtles/leonardo</code></pre>
+                                <pre><code>curl https://www.turtletime.dev/api/v1/turtles/leonardo</code></pre>
                             </div>
                         </div>
                     </div>
@@ -286,7 +286,7 @@
                             <h4>Example Request</h4>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                                <pre><code>curl "https://vercel-python-nine-tau.vercel.app/api/v1/episodes?season=1&limit=5"</code></pre>
+                                <pre><code>curl "https://www.turtletime.dev/api/v1/episodes?season=1&limit=5"</code></pre>
                             </div>
                         </div>
                     </div>
@@ -372,7 +372,7 @@
                             <h4>Example Request</h4>
                             <div class="code-block">
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                                <pre><code>curl "https://vercel-python-nine-tau.vercel.app/api/v1/search?q=pizza"</code></pre>
+                                <pre><code>curl "https://www.turtletime.dev/api/v1/search?q=pizza"</code></pre>
                             </div>
                             
                             <h4>Response Structure</h4>
@@ -466,7 +466,7 @@ Content-Type: application/json
                         <pre><code class="language-javascript">// Get all turtles
 async function getTurtles() {
   try {
-    const response = await fetch('https://vercel-python-nine-tau.vercel.app/api/v1/turtles');
+    const response = await fetch('https://www.turtletime.dev/api/v1/turtles');
     const turtles = await response.json();
     console.log(turtles);
   } catch (error) {
@@ -477,7 +477,7 @@ async function getTurtles() {
 // Get specific turtle
 async function getTurtle(name) {
   try {
-    const response = await fetch(`https://vercel-python-nine-tau.vercel.app/api/v1/turtles/${name}`);
+    const response = await fetch(`https://www.turtletime.dev/api/v1/turtles/${name}`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -491,7 +491,7 @@ async function getTurtle(name) {
 // Search
 async function searchTMNT(query) {
   try {
-    const response = await fetch(`https://vercel-python-nine-tau.vercel.app/api/v1/search?q=${encodeURIComponent(query)}`);
+    const response = await fetch(`https://www.turtletime.dev/api/v1/search?q=${encodeURIComponent(query)}`);
     const results = await response.json();
     console.log(results);
   } catch (error) {
@@ -507,7 +507,7 @@ async function searchTMNT(query) {
                         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                         <pre><code class="language-python">import requests
 
-BASE_URL = "https://vercel-python-nine-tau.vercel.app/api/v1"
+BASE_URL = "https://www.turtletime.dev/api/v1"
 
 # Get all turtles
 def get_turtles():
@@ -557,25 +557,25 @@ if __name__ == "__main__":
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                         <pre><code class="language-bash"># Get all turtles
-curl https://vercel-python-nine-tau.vercel.app/api/v1/turtles
+curl https://www.turtletime.dev/api/v1/turtles
 
 # Get specific turtle
-curl https://vercel-python-nine-tau.vercel.app/api/v1/turtles/leonardo
+curl https://www.turtletime.dev/api/v1/turtles/leonardo
 
 # Get all villains
-curl https://vercel-python-nine-tau.vercel.app/api/v1/villains
+curl https://www.turtletime.dev/api/v1/villains
 
 # Get episodes from season 1
-curl "https://vercel-python-nine-tau.vercel.app/api/v1/episodes?season=1"
+curl "https://www.turtletime.dev/api/v1/episodes?season=1"
 
 # Get random quote
-curl https://vercel-python-nine-tau.vercel.app/api/v1/quotes/random
+curl https://www.turtletime.dev/api/v1/quotes/random
 
 # Search for "shredder"
-curl "https://vercel-python-nine-tau.vercel.app/api/v1/search?q=shredder"
+curl "https://www.turtletime.dev/api/v1/search?q=shredder"
 
 # Pretty print with jq
-curl https://vercel-python-nine-tau.vercel.app/api/v1/turtles | jq '.'</code></pre>
+curl https://www.turtletime.dev/api/v1/turtles | jq '.'</code></pre>
                     </div>
                 </div>
 
@@ -584,7 +584,7 @@ curl https://vercel-python-nine-tau.vercel.app/api/v1/turtles | jq '.'</code></p
                     <div class="code-block">
                         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                         <pre><code class="language-php">&lt;?php
-$baseUrl = "https://vercel-python-nine-tau.vercel.app/api/v1";
+$baseUrl = "https://www.turtletime.dev/api/v1";
 
 // Get all turtles
 function getTurtles() {
@@ -664,7 +664,7 @@ try {
                 <div class="cta-section">
                     <h3>Ready to build something awesome?</h3>
                     <p>Start using the TMNT API in your projects today!</p>
-                    <a href="https://vercel-python-nine-tau.vercel.app/api/v1/turtles" class="btn-primary" target="_blank">Try it Now</a>
+                    <a href="https://www.turtletime.dev/api/v1/turtles" class="btn-primary" target="_blank">Try it Now</a>
                 </div>
             </section>
         </div>
