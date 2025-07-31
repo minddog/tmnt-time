@@ -1,0 +1,12 @@
+{
+  "name": "tmnt-hub",
+  "version": "1.0.0",
+  "description": "TMNT Hub with Edge Config",
+  "scripts": {
+    "setup-edge-config": "node scripts/setup-edge-config.js"
+  },
+  "dependencies": {
+    "@vercel/edge-config": "^0.4.1",
+    "@vercel/kv": "^1.0.1"
+  }
+}
