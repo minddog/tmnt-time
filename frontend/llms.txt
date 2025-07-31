@@ -1,0 +1,129 @@
+# TMNT API
+
+The TMNT API provides comprehensive data about the Teenage Mutant Ninja Turtles universe.
+
+## Base URL
+https://www.turtletime.dev/api/v1
+
+## Authentication
+None required - this is a public API
+
+## Available Endpoints
+
+### GET /turtles
+Returns all four ninja turtles with their profiles
+Example: GET https://www.turtletime.dev/api/v1/turtles
+
+### GET /turtles/{name}
+Returns a specific turtle by name
+Parameters: name (leonardo, donatello, raphael, michelangelo)
+Example: GET https://www.turtletime.dev/api/v1/turtles/leonardo
+
+### GET /villains
+Returns all TMNT villains
+Example: GET https://www.turtletime.dev/api/v1/villains
+
+### GET /villains/{name}
+Returns a specific villain
+Parameters: name (shredder, krang, bebop, rocksteady, baxter_stockman)
+Example: GET https://www.turtletime.dev/api/v1/villains/shredder
+
+### GET /episodes
+Returns episodes with optional filtering
+Query parameters:
+- season: Filter by season number (optional)
+- limit: Results per page (default: 10)
+- offset: Skip results for pagination (default: 0)
+Example: GET https://www.turtletime.dev/api/v1/episodes?season=1&limit=5
+
+### GET /quotes/random
+Returns a random TMNT quote
+Example: GET https://www.turtletime.dev/api/v1/quotes/random
+
+### GET /weapons
+Returns all turtle weapons
+Example: GET https://www.turtletime.dev/api/v1/weapons
+
+### GET /search
+Search across all data
+Query parameters:
+- q: Search query (required, min 2 characters)
+Example: GET https://www.turtletime.dev/api/v1/search?q=pizza
+
+## Response Format
+All responses are JSON formatted
+
+### Turtle Object
+{
+  "name": "leonardo",
+  "full_name": "Leonardo",
+  "color": "blue",
+  "weapon": "Katana",
+  "personality": "Leader, disciplined, responsible",
+  "favorite_pizza": "Pepperoni",
+  "catchphrase": "We strike hard and fade away into the night",
+  "image_url": "/images/leonardo.svg"
+}
+
+### Villain Object
+{
+  "name": "shredder",
+  "real_name": "Oroku Saki",
+  "description": "The leader of the Foot Clan and arch-nemesis of the Turtles",
+  "abilities": ["Master martial artist", "Strategic genius", "Bladed armor"],
+  "first_appearance": "Episode 1: Turtle Tracks",
+  "arch_enemy_of": "Splinter",
+  "image_url": "/images/shredder.svg"
+}
+
+### Episode Object
+{
+  "id": 1,
+  "title": "Turtle Tracks",
+  "season": 1,
+  "episode_number": 1,
+  "air_date": "1987-12-14",
+  "synopsis": "The Turtles make their first appearance and battle the Foot Clan",
+  "villains_featured": ["Shredder", "Foot Soldiers"]
+}
+
+### Quote Object
+{
+  "id": 1,
+  "text": "Cowabunga!",
+  "character": "Michelangelo",
+  "context": "Battle cry"
+}
+
+### Weapon Object
+{
+  "name": "Katana",
+  "type": "Sword",
+  "wielder": "Leonardo",
+  "description": "Twin katana swords, symbols of leadership and honor",
+  "special_moves": ["Double slice", "Spinning blade shield", "Precision strike"]
+}
+
+### Search Results Object
+{
+  "turtles": [...],
+  "villains": [...],
+  "episodes": [...],
+  "quotes": [...],
+  "weapons": [...]
+}
+
+## Error Responses
+- 200: Success
+- 400: Bad Request
+- 404: Not Found
+- 422: Validation Error
+- 500: Internal Server Error
+
+## Rate Limiting
+1000 requests per hour for reasonable usage
+
+## Additional Resources
+- Full API Documentation: https://www.turtletime.dev/pages/api-docs.html
+- OpenAPI Specification: https://www.turtletime.dev/openapi.json
+- Interactive Swagger UI: https://petstore.swagger.io/?url=https://www.turtletime.dev/openapi.json
