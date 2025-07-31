@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Bebop - Mutant Warthog -->
+  <rect width="400" height="400" fill="#1a1a2e"/>
+  
+  <!-- Body -->
+  <ellipse cx="200" cy="250" rx="100" ry="120" fill="#8b4513"/>
+  <ellipse cx="200" cy="250" rx="80" ry="100" fill="#a0522d"/>
+  
+  <!-- Head -->
+  <circle cx="200" cy="140" r="70" fill="#8b4513"/>
+  
+  <!-- Snout -->
+  <ellipse cx="200" cy="160" rx="40" ry="30" fill="#d2691e"/>
+  <ellipse cx="185" cy="160" rx="8" ry="12" fill="#000"/>
+  <ellipse cx="215" cy="160" rx="8" ry="12" fill="#000"/>
+  
+  <!-- Mohawk -->
+  <path d="M 200 70 L 190 100 L 200 90 L 210 100 Z" fill="#4c1d95"/>
+  <path d="M 200 80 L 185 110 L 200 95 L 215 110 Z" fill="#4c1d95"/>
+  
+  <!-- Eyes -->
+  <circle cx="170" cy="130" r="15" fill="white"/>
+  <circle cx="230" cy="130" r="15" fill="white"/>
+  <circle cx="172" cy="132" r="8" fill="black"/>
+  <circle cx="228" cy="132" r="8" fill="black"/>
+  
+  <!-- Tusks -->
+  <path d="M 170 170 L 165 190 L 175 185 Z" fill="white"/>
+  <path d="M 230 170 L 235 190 L 225 185 Z" fill="white"/>
+  
+  <!-- Vest -->
+  <rect x="120" y="200" width="160" height="100" fill="#000" rx="10"/>
+  <rect x="140" y="220" width="120" height="60" fill="#333"/>
+  
+  <!-- Sunglasses on head -->
+  <rect x="160" y="95" width="80" height="5" fill="#000"/>
+  <circle cx="175" cy="95" r="18" fill="none" stroke="#000" stroke-width="4"/>
+  <circle cx="225" cy="95" r="18" fill="none" stroke="#000" stroke-width="4"/>
+  
+  <!-- Chain necklace -->
+  <ellipse cx="200" cy="205" rx="60" ry="15" fill="none" stroke="#ffd700" stroke-width="3"/>
+  
+  <!-- Label -->
+  <text x="200" y="360" text-anchor="middle" font-family="Arial Black" font-size="28" fill="white">BEBOP</text>
+</svg>

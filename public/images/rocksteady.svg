@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Rocksteady - Mutant Rhino -->
+  <rect width="400" height="400" fill="#1a1a2e"/>
+  
+  <!-- Body -->
+  <ellipse cx="200" cy="250" rx="110" ry="130" fill="#6b7280"/>
+  <ellipse cx="200" cy="250" rx="90" ry="110" fill="#9ca3af"/>
+  
+  <!-- Head -->
+  <ellipse cx="200" cy="140" rx="75" ry="65" fill="#6b7280"/>
+  
+  <!-- Horn -->
+  <path d="M 200 100 L 190 130 L 200 125 L 210 130 Z" fill="#e5e7eb"/>
+  <ellipse cx="200" cy="130" rx="15" ry="8" fill="#9ca3af"/>
+  
+  <!-- Eyes -->
+  <circle cx="170" cy="140" r="12" fill="white"/>
+  <circle cx="230" cy="140" r="12" fill="white"/>
+  <circle cx="172" cy="142" r="6" fill="black"/>
+  <circle cx="228" cy="142" r="6" fill="black"/>
+  
+  <!-- Snout -->
+  <ellipse cx="200" cy="165" rx="35" ry="25" fill="#9ca3af"/>
+  <ellipse cx="190" cy="165" rx="6" ry="8" fill="#000"/>
+  <ellipse cx="210" cy="165" rx="6" ry="8" fill="#000"/>
+  
+  <!-- Military gear -->
+  <rect x="110" y="200" width="180" height="120" fill="#3d4a3d" rx="10"/>
+  <rect x="130" y="220" width="140" height="80" fill="#4b5a4b"/>
+  
+  <!-- Helmet -->
+  <path d="M 140 110 Q 200 90 260 110 L 260 140 Q 200 150 140 140 Z" fill="#556b2f"/>
+  <circle cx="200" cy="115" r="8" fill="#ffd700"/>
+  
+  <!-- Ammo belt -->
+  <rect x="120" y="230" width="160" height="20" fill="#8b4513"/>
+  <rect x="130" y="235" width="10" height="10" fill="#ffd700" rx="2"/>
+  <rect x="150" y="235" width="10" height="10" fill="#ffd700" rx="2"/>
+  <rect x="170" y="235" width="10" height="10" fill="#ffd700" rx="2"/>
+  <rect x="190" y="235" width="10" height="10" fill="#ffd700" rx="2"/>
+  <rect x="210" y="235" width="10" height="10" fill="#ffd700" rx="2"/>
+  <rect x="230" y="235" width="10" height="10" fill="#ffd700" rx="2"/>
+  <rect x="250" y="235" width="10" height="10" fill="#ffd700" rx="2"/>
+  <rect x="270" y="235" width="10" height="10" fill="#ffd700" rx="2"/>
+  
+  <!-- Label -->
+  <text x="200" y="360" text-anchor="middle" font-family="Arial Black" font-size="28" fill="white">ROCKSTEADY</text>
+</svg>

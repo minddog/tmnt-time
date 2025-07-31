@@ -79,7 +79,7 @@
       ],
       "first_appearance": "Episode 25: Slash and Destroy",
       "arch_enemy_of": null,
-      "image_url": "/images/bebop.png"
+      "image_url": "/images/bebop.svg"
     },
     "rocksteady": {
       "name": "rocksteady",
@@ -92,7 +92,7 @@
       ],
       "first_appearance": "Episode 25: Slash and Destroy",
       "arch_enemy_of": null,
-      "image_url": "/images/rocksteady.png"
+      "image_url": "/images/rocksteady.svg"
     },
     "baxter_stockman": {
       "name": "baxter_stockman",
@@ -105,7 +105,7 @@
       ],
       "first_appearance": "Episode 2: A Better Mousetrap",
       "arch_enemy_of": null,
-      "image_url": "/images/baxter.png"
+      "image_url": "/images/baxter_stockman.svg"
     }
   },
   "weapons": [

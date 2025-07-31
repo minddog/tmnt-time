@@ -68,7 +68,7 @@ VILLAINS: Dict[str, Villain] = {
         description="Mutant warthog and Shredder's henchman",
         abilities=["Super strength", "Enhanced durability", "Street fighting"],
         first_appearance="Episode 25: Slash and Destroy",
-        image_url="/images/bebop.png"
+        image_url="/images/bebop.svg"
     ),
     "rocksteady": Villain(
         name="rocksteady",
@@ -76,7 +76,7 @@ VILLAINS: Dict[str, Villain] = {
         description="Mutant rhinoceros and Shredder's henchman",
         abilities=["Super strength", "Thick hide", "Military training"],
         first_appearance="Episode 25: Slash and Destroy",
-        image_url="/images/rocksteady.png"
+        image_url="/images/rocksteady.svg"
     ),
     "baxter_stockman": Villain(
         name="baxter_stockman",
@@ -84,7 +84,7 @@ VILLAINS: Dict[str, Villain] = {
         description="Mad scientist who creates the Mousers and later becomes a mutant fly",
         abilities=["Scientific genius", "Robotics expert", "Flight (as mutant)"],
         first_appearance="Episode 2: A Better Mousetrap",
-        image_url="/images/baxter.png"
+        image_url="/images/baxter_stockman.svg"
     )
 }
 
