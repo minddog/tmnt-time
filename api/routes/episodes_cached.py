@@ -109,7 +109,7 @@ async def get_all_weapons(response: Response):
 
 
 @router.get("/search")
-async def search_tmnt(q: str = Query(..., min_length=2), response: Response):
+async def search_tmnt(response: Response, q: str = Query(..., min_length=2)):
     """Search across all TMNT data"""
     # Short cache for search results
     for key, value in DYNAMIC_CACHE.items():
