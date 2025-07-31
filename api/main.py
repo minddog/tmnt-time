@@ -52,7 +52,8 @@ async def health_check():
 
 # For local development - serve frontend files
 if os.path.exists("frontend"):
-    app.mount("/images", StaticFiles(directory="public/images", html=True), name="images")
+    if os.path.exists("public/images"):
+        app.mount("/images", StaticFiles(directory="public/images", html=True), name="images")
     app.mount("/css", StaticFiles(directory="frontend/css", html=True), name="css")
     app.mount("/js", StaticFiles(directory="frontend/js", html=True), name="js")
     
