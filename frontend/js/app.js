@@ -1,7 +1,5 @@
 // API Base URL - will work both locally and on Vercel
-const API_BASE_URL = window.location.hostname === 'localhost' 
-    ? 'http://localhost:8000/api/v1' 
-    : '/api/v1';
+const API_BASE_URL = '/api/v1';
 
 // Global state
 let currentPage = 1;
