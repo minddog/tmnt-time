@@ -76,6 +76,7 @@ async def health_check(response: Response):
 async def debug_endpoint(response: Response):
     """Debug endpoint to check Edge Config and data"""
     import os
+    import sys
     response.headers["Cache-Control"] = "no-cache"
     
     # Get Edge Config URL (without token for security)
@@ -98,5 +99,5 @@ async def debug_endpoint(response: Response):
         "edge_config_available": bool(edge_config.edge_config_url),
         "turtles_data": turtles_data,
         "error": error,
-        "python_version": os.sys.version
+        "python_version": sys.version
     }
