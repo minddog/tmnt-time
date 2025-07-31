@@ -86,11 +86,17 @@ async def debug_endpoint(response: Response):
     
     # Try to get turtles data
     turtles_data = None
+    all_data = None
     error = None
     try:
         turtles_data = edge_config.get('turtles')
         if turtles_data:
             turtles_data = f"Loaded {len(turtles_data)} turtles"
+        
+        # Try to get all data to see what's available
+        all_data = edge_config.get_all()
+        if all_data:
+            all_data = list(all_data.keys()) if isinstance(all_data, dict) else "Not a dict"
     except Exception as e:
         error = str(e)
     
@@ -98,6 +104,7 @@ async def debug_endpoint(response: Response):
         "edge_config_url": edge_url,
         "edge_config_available": bool(edge_config.edge_config_url),
         "turtles_data": turtles_data,
+        "all_data_keys": all_data,
         "error": error,
         "python_version": sys.version
     }
