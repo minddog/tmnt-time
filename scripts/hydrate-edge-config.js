@@ -5,13 +5,20 @@
  * This script automatically populates your Edge Config with TMNT data
  * 
  * Usage:
- * 1. Set environment variables:
+ * 1. Create a .env file with:
  *    - VERCEL_TOKEN: Your Vercel API token
  *    - EDGE_CONFIG_ID: Your Edge Config ID
  *    - VERCEL_TEAM_ID: Your team ID (optional)
  * 
  * 2. Run: node scripts/hydrate-edge-config.js
  */
+
+// Load environment variables from .env file
+try {
+  require('dotenv').config();
+} catch (e) {
+  // dotenv is not installed, continue with environment variables
+}
 
 const https = require('https');
 
@@ -238,11 +245,14 @@ const VERCEL_TEAM_ID = process.env.VERCEL_TEAM_ID;
 
 if (!VERCEL_TOKEN || !EDGE_CONFIG_ID) {
   console.error('❌ Missing required environment variables!');
-  console.error('\nPlease set:');
+  console.error('\nPlease set in .env file or environment:');
   console.error('  VERCEL_TOKEN - Your Vercel API token (create at https://vercel.com/account/tokens)');
   console.error('  EDGE_CONFIG_ID - Your Edge Config ID (from your Edge Config URL)');
   console.error('  VERCEL_TEAM_ID - Your team ID (optional, for team accounts)');
-  console.error('\nExample:');
+  console.error('\nOption 1: Create a .env file:');
+  console.error('  cp .env.example .env');
+  console.error('  # Then edit .env with your values');
+  console.error('\nOption 2: Set directly:');
   console.error('  VERCEL_TOKEN=xxx EDGE_CONFIG_ID=ecfg_xxx node scripts/hydrate-edge-config.js');
   process.exit(1);
 }

@@ -68,6 +68,8 @@ uvicorn api.main:app --reload
 
 For ultra-fast API responses, set up Vercel Edge Config:
 
+### Quick Setup
+
 ```bash
 # Install dependencies
 npm install
@@ -80,6 +82,33 @@ This will:
 - Guide you through creating Edge Config
 - Automatically hydrate it with TMNT data
 - Connect it to your project
+
+### Manual Setup
+
+1. Create an Edge Config in your Vercel dashboard
+2. Get your Edge Config ID from the URL
+3. Set up environment variables using one of these methods:
+
+   **Option 1: Using .env file (recommended)**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your values:
+   # VERCEL_TOKEN=your-vercel-token
+   # EDGE_CONFIG_ID=your-edge-config-id
+   # VERCEL_TEAM_ID=your-team-id # Optional, for team accounts
+   ```
+
+   **Option 2: Export directly**
+   ```bash
+   export VERCEL_TOKEN="your-vercel-token"
+   export EDGE_CONFIG_ID="your-edge-config-id"
+   export VERCEL_TEAM_ID="your-team-id" # Optional, for team accounts
+   ```
+
+4. Run the hydration script:
+   ```bash
+   node scripts/hydrate-edge-config.js
+   ```
 
 ## Deployment to Vercel
 
