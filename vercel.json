@@ -35,10 +35,5 @@
       "src": "/",
       "dest": "frontend/index.html"
     }
-  ],
-  "functions": {
-    "api/main.py": {
-      "maxDuration": 10
-    }
-  }
+  ]
 }
