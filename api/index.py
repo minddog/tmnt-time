@@ -70,3 +70,33 @@ async def health_check(response: Response):
         "edge_config": edge_status,
         "version": "2.0.0"
     }
+
+
+@app.get("/api/debug")
+async def debug_endpoint(response: Response):
+    """Debug endpoint to check Edge Config and data"""
+    import os
+    response.headers["Cache-Control"] = "no-cache"
+    
+    # Get Edge Config URL (without token for security)
+    edge_url = os.environ.get('EDGE_CONFIG', 'Not set')
+    if edge_url != 'Not set':
+        edge_url = edge_url.split('?')[0] + '?token=***'
+    
+    # Try to get turtles data
+    turtles_data = None
+    error = None
+    try:
+        turtles_data = edge_config.get('turtles')
+        if turtles_data:
+            turtles_data = f"Loaded {len(turtles_data)} turtles"
+    except Exception as e:
+        error = str(e)
+    
+    return {
+        "edge_config_url": edge_url,
+        "edge_config_available": bool(edge_config.edge_config_url),
+        "turtles_data": turtles_data,
+        "error": error,
+        "python_version": os.sys.version
+    }
