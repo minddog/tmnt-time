@@ -231,26 +231,78 @@ function setupTurtleFilters() {
 }
 
 async function showTurtleDetail(turtleName) {
-    const detailDiv = document.getElementById('turtleDetail');
+    const modal = document.getElementById('turtleModal');
+    const modalContent = document.getElementById('turtleModalContent');
     const turtle = await fetchAPI(`/turtles/${turtleName}`);
     
-    if (turtle && detailDiv) {
-        detailDiv.innerHTML = `
-            <div class="turtle-detail-content">
-                <h2>${turtle.full_name}</h2>
-                <div class="turtle-detail-info">
-                    <p><strong>Color:</strong> ${turtle.color}</p>
-                    <p><strong>Weapon:</strong> ${turtle.weapon}</p>
-                    <p><strong>Personality:</strong> ${turtle.personality}</p>
-                    <p><strong>Favorite Pizza:</strong> ${turtle.favorite_pizza}</p>
-                    <p><strong>Catchphrase:</strong> "${turtle.catchphrase}"</p>
+    if (turtle && modal && modalContent) {
+        // Get weapon stats based on turtle
+        const weaponStats = getWeaponStats(turtle.weapon);
+        
+        modalContent.innerHTML = `
+            <div class="turtle-modal-hero ${turtle.name}">
+                <img src="${turtle.image_url}" alt="${turtle.full_name}" class="turtle-modal-image">
+                <div class="turtle-particles"></div>
+            </div>
+            <div class="turtle-modal-details">
+                <h2 class="turtle-modal-name">${turtle.full_name}</h2>
+                <span class="turtle-modal-badge ${turtle.color}">${turtle.color.toUpperCase()} NINJA</span>
+                
+                <div class="turtle-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Weapon</span>
+                        <span class="stat-value">${turtle.weapon}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Pizza</span>
+                        <span class="stat-value">${turtle.favorite_pizza}</span>
+                    </div>
                 </div>
+                
+                <div class="weapon-abilities">
+                    <h3>Weapon Abilities</h3>
+                    <div class="ability-bars">
+                        <div class="ability-bar">
+                            <span>Power</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill ${turtle.color}" style="width: ${weaponStats.power}%"></div>
+                            </div>
+                        </div>
+                        <div class="ability-bar">
+                            <span>Speed</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill ${turtle.color}" style="width: ${weaponStats.speed}%"></div>
+                            </div>
+                        </div>
+                        <div class="ability-bar">
+                            <span>Range</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill ${turtle.color}" style="width: ${weaponStats.range}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="turtle-personality"><strong>Personality:</strong> ${turtle.personality}</p>
+                
+                <div class="turtle-catchphrase">
+                    <span class="quote-mark">"</span>
+                    ${turtle.catchphrase}
+                    <span class="quote-mark">"</span>
+                </div>
+                
+                <button class="action-btn ${turtle.color}" onclick="playTurtleSound('${turtle.name}')">
+                    🔊 Hear Battle Cry!
+                </button>
             </div>
         `;
-        detailDiv.classList.remove('hidden');
         
-        // Scroll to detail
-        detailDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Show modal with animation
+        modal.style.display = 'block';
+        setTimeout(() => modal.classList.add('show'), 10);
+        
+        // Add particle effects
+        createParticles(turtle.color);
     }
 }
 
@@ -433,3 +485,71 @@ function debounce(func, wait) {
         timeout = setTimeout(later, wait);
     };
 }
+
+// Helper functions for turtle modal
+function getWeaponStats(weapon) {
+    const stats = {
+        'Katana': { power: 85, speed: 90, range: 70 },
+        'Bo Staff': { power: 70, speed: 75, range: 95 },
+        'Sai': { power: 80, speed: 85, range: 50 },
+        'Nunchucks': { power: 75, speed: 95, range: 60 }
+    };
+    return stats[weapon] || { power: 50, speed: 50, range: 50 };
+}
+
+function createParticles(color) {
+    const container = document.querySelector('.turtle-particles');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    const colors = {
+        'blue': '#1e3a8a',
+        'purple': '#7c3aed',
+        'red': '#dc2626',
+        'orange': '#f97316'
+    };
+    
+    for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.background = colors[color];
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 2 + 's';
+        particle.style.animationDuration = (2 + Math.random() * 3) + 's';
+        container.appendChild(particle);
+    }
+}
+
+function playTurtleSound(turtleName) {
+    // Simulate sound effect with visual feedback
+    const btn = event.target;
+    btn.textContent = '🎵 ' + (turtleName === 'michelangelo' ? 'COWABUNGA!' : 'TURTLE POWER!');
+    btn.disabled = true;
+    
+    setTimeout(() => {
+        btn.textContent = '🔊 Hear Battle Cry!';
+        btn.disabled = false;
+    }, 2000);
+}
+
+// Setup modal close handlers
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('turtleModal');
+    const closeBtn = document.querySelector('.close-modal');
+    
+    if (closeBtn) {
+        closeBtn.onclick = () => {
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
+        };
+    }
+    
+    if (modal) {
+        window.onclick = (event) => {
+            if (event.target === modal) {
+                modal.classList.remove('show');
+                setTimeout(() => modal.style.display = 'none', 300);
+            }
+        };
+    }
+});
