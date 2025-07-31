@@ -20,15 +20,25 @@ class EdgeConfigClient:
     
     def _load_fallback_data(self):
         """Load fallback data when Edge Config is not available"""
-        # Import the existing data as fallback
-        from api.data.tmnt_data import TURTLES, VILLAINS, WEAPONS, QUOTES, EPISODES
-        self._cache = {
-            'turtles': {k: v.dict() for k, v in TURTLES.items()},
-            'villains': {k: v.dict() for k, v in VILLAINS.items()},
-            'weapons': [w.dict() for w in WEAPONS],
-            'quotes': [q.dict() for q in QUOTES],
-            'episodes': [e.dict() for e in EPISODES]
-        }
+        try:
+            # Import the existing data as fallback
+            from api.data.tmnt_data import TURTLES, VILLAINS, WEAPONS, QUOTES, EPISODES
+            self._cache = {
+                'turtles': {k: v.dict() for k, v in TURTLES.items()},
+                'villains': {k: v.dict() for k, v in VILLAINS.items()},
+                'weapons': [w.dict() for w in WEAPONS],
+                'quotes': [q.dict() for q in QUOTES],
+                'episodes': [e.dict() for e in EPISODES]
+            }
+        except ImportError:
+            # If import fails, use empty cache
+            self._cache = {
+                'turtles': {},
+                'villains': {},
+                'weapons': [],
+                'quotes': [],
+                'episodes': []
+            }
     
     def get(self, key: str) -> Optional[Any]:
         """Get a value from Edge Config"""
