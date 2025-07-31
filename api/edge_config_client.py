@@ -13,9 +13,9 @@ class EdgeConfigClient:
         # Edge Config connection string format:
         # https://edge-config.vercel.com/<config-id>?token=<token>
         self.edge_config_url = os.environ.get('EDGE_CONFIG')
+        self._cache = {}
         if not self.edge_config_url:
             self.edge_config_url = None
-            self._cache = {}
             self._load_fallback_data()
     
     def _load_fallback_data(self):
