@@ -344,39 +344,106 @@ async function showVillainModal(villainName) {
     const villain = await fetchAPI(`/villains/${villainName}`);
 
     if (villain && modal && modalContent) {
+        // Get villain threat level based on name
+        const threatLevel = getVillainThreatLevel(villain.name);
+        
         modalContent.innerHTML = `
-            <h2>${villain.name.replace(/_/g, ' ').toUpperCase()}</h2>
-            ${villain.real_name ? `<p><strong>Real Name:</strong> ${villain.real_name}</p>` : ''}
-            <p><strong>Description:</strong> ${villain.description}</p>
-            <div>
-                <strong>Abilities:</strong>
-                <ul>
-                    ${villain.abilities.map(ability => `<li>${ability}</li>`).join('')}
-                </ul>
+            <div class="villain-modal-hero ${villain.name}">
+                <img src="${villain.image_url}" alt="${villain.name}" class="villain-modal-image">
+                <div class="villain-particles"></div>
             </div>
-            <p><strong>First Appearance:</strong> ${villain.first_appearance}</p>
-            ${villain.arch_enemy_of ? `<p><strong>Arch Enemy of:</strong> ${villain.arch_enemy_of}</p>` : ''}
+            <div class="villain-modal-details">
+                <h2 class="villain-modal-name">${villain.name.replace(/_/g, ' ').toUpperCase()}</h2>
+                ${villain.real_name ? `<span class="villain-modal-badge">AKA: ${villain.real_name}</span>` : ''}
+                
+                <div class="villain-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Type</span>
+                        <span class="stat-value">${getVillainType(villain.name)}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">First Seen</span>
+                        <span class="stat-value">${villain.first_appearance.split(':')[0]}</span>
+                    </div>
+                </div>
+                
+                <div class="threat-assessment">
+                    <h3>Threat Assessment</h3>
+                    <div class="ability-bars">
+                        <div class="ability-bar">
+                            <span>Power</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill villain" style="width: ${threatLevel.power}%"></div>
+                            </div>
+                        </div>
+                        <div class="ability-bar">
+                            <span>Intelligence</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill villain" style="width: ${threatLevel.intelligence}%"></div>
+                            </div>
+                        </div>
+                        <div class="ability-bar">
+                            <span>Danger</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill villain" style="width: ${threatLevel.danger}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="villain-description">${villain.description}</p>
+                
+                <div class="villain-abilities">
+                    <h3>Special Abilities</h3>
+                    <div class="abilities-grid">
+                        ${villain.abilities.map(ability => 
+                            `<span class="ability-tag-modal">${ability}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+                
+                ${villain.arch_enemy_of ? `
+                    <div class="arch-enemy">
+                        <span class="enemy-label">Arch Enemy:</span>
+                        <span class="enemy-name">${villain.arch_enemy_of}</span>
+                    </div>
+                ` : ''}
+                
+                <button class="action-btn villain" onclick="playVillainSound('${villain.name}')">
+                    ⚡ Activate Evil Laugh!
+                </button>
+            </div>
         `;
+        
+        // Show modal with animation
         modal.style.display = 'block';
+        setTimeout(() => modal.classList.add('show'), 10);
+        
+        // Add particle effects
+        createVillainParticles();
     }
 }
 
-// Modal close functionality
+// Update modal close for villain modal
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('villainModal');
-    const closeBtn = document.querySelector('.close');
+    const closeBtn = modal?.querySelector('.close-modal');
 
     if (closeBtn) {
         closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
         });
     }
 
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
+    if (modal) {
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+                setTimeout(() => modal.style.display = 'none', 300);
+            }
+        });
+    }
 });
 
 // Episodes page functionality
@@ -553,3 +620,70 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 });
+
+// Helper functions for villain modal
+function getVillainThreatLevel(name) {
+    const levels = {
+        'shredder': { power: 90, intelligence: 85, danger: 95 },
+        'krang': { power: 80, intelligence: 95, danger: 90 },
+        'bebop': { power: 85, intelligence: 40, danger: 70 },
+        'rocksteady': { power: 90, intelligence: 35, danger: 75 },
+        'baxter_stockman': { power: 60, intelligence: 90, danger: 80 }
+    };
+    return levels[name] || { power: 50, intelligence: 50, danger: 50 };
+}
+
+function getVillainType(name) {
+    const types = {
+        'shredder': 'Martial Artist',
+        'krang': 'Alien Warlord',
+        'bebop': 'Mutant',
+        'rocksteady': 'Mutant',
+        'baxter_stockman': 'Mad Scientist'
+    };
+    return types[name] || 'Unknown';
+}
+
+function createVillainParticles() {
+    const container = document.querySelector('.villain-particles');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    const colors = ['#dc2626', '#991b1b', '#7f1d1d', '#450a0a'];
+    
+    for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle villain-particle';
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 3 + 's';
+        particle.style.animationDuration = (3 + Math.random() * 4) + 's';
+        container.appendChild(particle);
+    }
+}
+
+function playVillainSound(villainName) {
+    const btn = event.target;
+    const laughs = {
+        'shredder': 'MWAHAHAHA!',
+        'krang': 'SCREEEECH!',
+        'bebop': 'SNORT SNORT!',
+        'rocksteady': 'GRAAAHH!',
+        'baxter_stockman': 'BZZZZZZ!'
+    };
+    
+    btn.textContent = '😈 ' + (laughs[villainName] || 'EVIL LAUGH!');
+    btn.disabled = true;
+    
+    // Add shake animation to modal
+    const modal = document.querySelector('.villain-modal-hero');
+    if (modal) {
+        modal.style.animation = 'shake 0.5s';
+        setTimeout(() => modal.style.animation = '', 500);
+    }
+    
+    setTimeout(() => {
+        btn.textContent = '⚡ Activate Evil Laugh!';
+        btn.disabled = false;
+    }, 2500);
+}

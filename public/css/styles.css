@@ -1085,3 +1085,189 @@ h1, h2, h3 {
 .action-btn.red { background: var(--raph-red); }
 .action-btn.orange { background: var(--mike-orange); }
 
+/* Villain Modal Styles */
+.villain-modal-hero {
+    position: relative;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
+    padding: 3rem;
+    text-align: center;
+    overflow: hidden;
+}
+
+.villain-modal-hero.shredder { background-color: rgba(156, 163, 175, 0.2); }
+.villain-modal-hero.krang { background-color: rgba(236, 72, 153, 0.2); }
+.villain-modal-hero.bebop { background-color: rgba(139, 69, 19, 0.2); }
+.villain-modal-hero.rocksteady { background-color: rgba(107, 114, 128, 0.2); }
+.villain-modal-hero.baxter_stockman { background-color: rgba(34, 197, 94, 0.2); }
+
+.villain-modal-image {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    animation: menace 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(220, 38, 38, 0.5));
+}
+
+@keyframes menace {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.05) rotate(-2deg); }
+    75% { transform: scale(1.05) rotate(2deg); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.villain-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.villain-particle {
+    animation: villain-float 4s linear infinite;
+}
+
+@keyframes villain-float {
+    0% {
+        opacity: 0;
+        transform: translateY(100px) scale(0) rotate(0deg);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(80px) scale(1) rotate(180deg);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(-80px) scale(1) rotate(360deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(0) rotate(540deg);
+    }
+}
+
+.villain-modal-details {
+    padding: 2rem;
+}
+
+.villain-modal-name {
+    font-size: 3rem;
+    margin: 0;
+    font-family: 'Bebas Neue', cursive;
+    color: #dc2626;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.villain-modal-badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    background: rgba(220, 38, 38, 0.2);
+    border: 2px solid #dc2626;
+    color: #fbbf24;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.villain-stats {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(220, 38, 38, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.threat-assessment {
+    margin: 2rem 0;
+}
+
+.threat-assessment h3 {
+    color: #dc2626;
+    margin-bottom: 1rem;
+}
+
+.bar-fill.villain {
+    background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%);
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+}
+
+.villain-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border-left: 4px solid #dc2626;
+}
+
+.villain-abilities {
+    margin: 2rem 0;
+}
+
+.villain-abilities h3 {
+    color: #fbbf24;
+    margin-bottom: 1rem;
+}
+
+.abilities-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.ability-tag-modal {
+    background: rgba(220, 38, 38, 0.1);
+    border: 1px solid #dc2626;
+    color: #fbbf24;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.ability-tag-modal:hover {
+    background: rgba(220, 38, 38, 0.3);
+    transform: translateY(-2px);
+}
+
+.arch-enemy {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1rem;
+    background: rgba(220, 38, 38, 0.1);
+    border-radius: 10px;
+}
+
+.enemy-label {
+    color: #dc2626;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.enemy-name {
+    color: #fbbf24;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.action-btn.villain {
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+}
+
+.action-btn.villain:hover:not(:disabled) {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 6px 30px rgba(220, 38, 38, 0.6);
+}
+
