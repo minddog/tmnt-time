@@ -64,7 +64,3 @@ if os.path.exists("frontend"):
     @app.get("/pages/{page}")
     async def serve_page(page: str):
         return FileResponse(f"frontend/pages/{page}")
-
-
-# Vercel handler
-handler = app
