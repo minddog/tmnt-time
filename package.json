@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "TMNT Hub with Edge Config",
   "scripts": {
-    "setup-edge-config": "node scripts/setup-edge-config.js"
+    "setup-edge-config": "node scripts/setup-edge-config.js",
+    "hydrate-edge-config": "node scripts/hydrate-edge-config.js",
+    "edge-config-wizard": "./scripts/setup-edge-config-cli.sh"
   },
   "dependencies": {
     "@vercel/edge-config": "^0.4.1",

@@ -3,12 +3,40 @@
 This guide will help you set up Edge Config to serve TMNT data from Vercel's edge network, eliminating API function calls for static data.
 
 ## Benefits
+
 - **Ultra-low latency**: Data served from edge locations
 - **No cold starts**: No function invocations
 - **Reduced costs**: No compute time for static data
 - **Better caching**: Automatic CDN caching
 
-## Setup Steps
+## Automated Setup (Recommended)
+
+### Option 1: Interactive Setup Wizard
+
+```bash
+npm run edge-config-wizard
+```
+
+This will guide you through:
+1. Getting your Vercel API token
+2. Creating or using existing Edge Config
+3. Automatically hydrating with TMNT data
+
+### Option 2: Direct Hydration
+
+If you already have an Edge Config:
+
+```bash
+# Set environment variables
+export VERCEL_TOKEN="your-vercel-token"
+export EDGE_CONFIG_ID="ecfg_xxxx"
+export VERCEL_TEAM_ID="team_xxxx"  # Optional, for team accounts
+
+# Run hydration
+npm run hydrate-edge-config
+```
+
+## Manual Setup Steps
 
 ### 1. Create Edge Config Store
 
@@ -18,10 +46,9 @@ This guide will help you set up Edge Config to serve TMNT data from Vercel's edg
 4. Name it (e.g., `tmnt-data`)
 5. Click "Create"
 
-### 2. Add TMNT Data
+### 2. Add TMNT Data Automatically
 
-1. In your Edge Config dashboard, click "Add Item"
-2. Add the following keys with their respective data:
+Use the hydration script instead of manual entry:
 
 **Key: `turtles`**
 ```json

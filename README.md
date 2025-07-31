@@ -64,6 +64,23 @@ uvicorn api.main:app --reload
 - Frontend: http://localhost:8000
 - API docs: http://localhost:8000/docs
 
+## Edge Config Setup (New!)
+
+For ultra-fast API responses, set up Vercel Edge Config:
+
+```bash
+# Install dependencies
+npm install
+
+# Run the interactive setup wizard
+npm run edge-config-wizard
+```
+
+This will:
+- Guide you through creating Edge Config
+- Automatically hydrate it with TMNT data
+- Connect it to your project
+
 ## Deployment to Vercel
 
 ### Prerequisites
