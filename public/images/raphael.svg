@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Raphael - Red Turtle -->
+  <rect width="400" height="400" fill="#1a1a2e"/>
+  
+  <!-- Shell -->
+  <ellipse cx="200" cy="200" rx="120" ry="140" fill="#2d5016"/>
+  <ellipse cx="200" cy="200" rx="100" ry="120" fill="#3d6a1f"/>
+  
+  <!-- Head -->
+  <circle cx="200" cy="120" r="60" fill="#4a7c59"/>
+  
+  <!-- Bandana -->
+  <rect x="140" y="100" width="120" height="25" fill="#dc2626" rx="5"/>
+  <rect x="260" y="105" width="80" height="15" fill="#dc2626" transform="rotate(25 300 112)"/>
+  <rect x="60" y="105" width="80" height="15" fill="#dc2626" transform="rotate(-25 100 112)"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="180" cy="115" rx="12" ry="8" fill="white"/>
+  <ellipse cx="220" cy="115" rx="12" ry="8" fill="white"/>
+  <circle cx="182" cy="115" r="5" fill="black"/>
+  <circle cx="218" cy="115" r="5" fill="black"/>
+  
+  <!-- Weapon - Sai -->
+  <rect x="120" y="180" width="6" height="80" fill="#c0c0c0" transform="rotate(-20 123 220)"/>
+  <rect x="110" y="190" width="4" height="30" fill="#c0c0c0" transform="rotate(-40 112 205)"/>
+  <rect x="130" y="190" width="4" height="30" fill="#c0c0c0" transform="rotate(0 132 205)"/>
+  
+  <rect x="274" y="180" width="6" height="80" fill="#c0c0c0" transform="rotate(20 277 220)"/>
+  <rect x="266" y="190" width="4" height="30" fill="#c0c0c0" transform="rotate(0 268 205)"/>
+  <rect x="286" y="190" width="4" height="30" fill="#c0c0c0" transform="rotate(40 288 205)"/>
+  
+  <!-- Belt -->
+  <rect x="140" y="200" width="120" height="15" fill="#dc2626"/>
+  <circle cx="200" cy="207" r="10" fill="#fbbf24"/>
+  <text x="200" y="212" text-anchor="middle" font-family="Arial" font-size="12" fill="#dc2626">R</text>
+  
+  <!-- Label -->
+  <text x="200" y="360" text-anchor="middle" font-family="Arial Black" font-size="28" fill="white">RAPHAEL</text>
+</svg>

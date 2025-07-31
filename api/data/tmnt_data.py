@@ -10,7 +10,7 @@ TURTLES: Dict[str, Turtle] = {
         personality="Leader, disciplined, responsible",
         favorite_pizza="Pepperoni",
         catchphrase="We strike hard and fade away into the night",
-        image_url="/images/leonardo.png"
+        image_url="/images/leonardo.svg"
     ),
     "donatello": Turtle(
         name="donatello",
@@ -20,7 +20,7 @@ TURTLES: Dict[str, Turtle] = {
         personality="Tech genius, inventor, problem solver",
         favorite_pizza="Hawaiian",
         catchphrase="Does machine!",
-        image_url="/images/donatello.png"
+        image_url="/images/donatello.svg"
     ),
     "raphael": Turtle(
         name="raphael",
@@ -30,7 +30,7 @@ TURTLES: Dict[str, Turtle] = {
         personality="Hot-headed, tough, rebellious",
         favorite_pizza="Meat Lovers",
         catchphrase="Turtle Power!",
-        image_url="/images/raphael.png"
+        image_url="/images/raphael.svg"
     ),
     "michelangelo": Turtle(
         name="michelangelo",
@@ -40,7 +40,7 @@ TURTLES: Dict[str, Turtle] = {
         personality="Fun-loving, laid-back, party dude",
         favorite_pizza="Extra Cheese",
         catchphrase="Cowabunga!",
-        image_url="/images/michelangelo.png"
+        image_url="/images/michelangelo.svg"
     )
 }
 
@@ -52,7 +52,7 @@ VILLAINS: Dict[str, Villain] = {
         abilities=["Master martial artist", "Strategic genius", "Bladed armor"],
         first_appearance="Episode 1: Turtle Tracks",
         arch_enemy_of="Splinter",
-        image_url="/images/shredder.png"
+        image_url="/images/shredder.svg"
     ),
     "krang": Villain(
         name="krang",
@@ -60,7 +60,7 @@ VILLAINS: Dict[str, Villain] = {
         description="An alien warlord from Dimension X, operates from within a mechanical body",
         abilities=["Super intelligence", "Advanced technology", "Dimensional portal creation"],
         first_appearance="Episode 5: Shredder & Splintered",
-        image_url="/images/krang.png"
+        image_url="/images/krang.svg"
     ),
     "bebop": Villain(
         name="bebop",

@@ -458,9 +458,27 @@ h1, h2, h3 {
     cursor: pointer;
 }
 
+.turtle-image, .villain-image {
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin: 0 auto 1rem;
+    display: block;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+
 .turtle-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-hover);
+}
+
+.turtle-card:hover .turtle-image,
+.villain-card:hover .villain-image {
+    transform: scale(1.05);
 }
 
 .turtle-card.leonardo { border-color: var(--leo-blue); }

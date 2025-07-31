@@ -188,6 +188,7 @@ async function loadTurtles() {
 function displayTurtles(turtles, container) {
     container.innerHTML = turtles.map(turtle => `
         <div class="turtle-card ${turtle.name}" data-turtle="${turtle.name}">
+            <img src="${turtle.image_url}" alt="${turtle.full_name}" class="turtle-image" loading="lazy">
             <h2>${turtle.full_name}</h2>
             <span class="color-badge ${turtle.color}">${turtle.color.toUpperCase()}</span>
             <p><strong>Weapon:</strong> ${turtle.weapon}</p>
@@ -262,6 +263,7 @@ async function loadVillains() {
     if (villains) {
         container.innerHTML = villains.map(villain => `
             <div class="villain-card" data-villain="${villain.name}">
+                <img src="${villain.image_url}" alt="${villain.name}" class="villain-image" loading="lazy">
                 <h2>${villain.name.replace(/_/g, ' ').toUpperCase()}</h2>
                 ${villain.real_name ? `<p><em>Real Name: ${villain.real_name}</em></p>` : ''}
                 <p>${villain.description}</p>
