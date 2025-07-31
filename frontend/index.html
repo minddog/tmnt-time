@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMNT Hub - Teenage Mutant Ninja Turtles</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">TMNT HUB</div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link active">Home</a></li>
+                <li><a href="/pages/turtles.html" class="nav-link">Turtles</a></li>
+                <li><a href="/pages/villains.html" class="nav-link">Villains</a></li>
+                <li><a href="/pages/episodes.html" class="nav-link">Episodes</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">TEENAGE MUTANT NINJA TURTLES</h1>
+            <p class="hero-subtitle">Heroes in a Half Shell - Turtle Power!</p>
+            <div class="hero-buttons">
+                <a href="/pages/turtles.html" class="btn btn-primary">Meet the Turtles</a>
+                <button class="btn btn-secondary" id="randomQuoteBtn">Random Quote</button>
+            </div>
+            <div id="quoteDisplay" class="quote-display"></div>
+        </div>
+        <div class="hero-image">
+            <div class="turtle-grid">
+                <div class="turtle-mask leo"></div>
+                <div class="turtle-mask don"></div>
+                <div class="turtle-mask raph"></div>
+                <div class="turtle-mask mike"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="features">
+            <h2 class="section-title">Explore the TMNT Universe</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon turtle-icon">🐢</div>
+                    <h3>The Turtles</h3>
+                    <p>Learn about Leonardo, Donatello, Raphael, and Michelangelo</p>
+                    <a href="/pages/turtles.html" class="feature-link">Meet the Heroes →</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon villain-icon">👹</div>
+                    <h3>The Villains</h3>
+                    <p>Discover Shredder, Krang, and the Foot Clan</p>
+                    <a href="/pages/villains.html" class="feature-link">Know Your Enemy →</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon episode-icon">📺</div>
+                    <h3>Episodes</h3>
+                    <p>Browse through classic TMNT episodes</p>
+                    <a href="/pages/episodes.html" class="feature-link">Watch Guide →</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="weapons-showcase">
+            <h2 class="section-title">Signature Weapons</h2>
+            <div id="weaponsContainer" class="weapons-grid">
+                <!-- Weapons will be loaded here -->
+            </div>
+        </section>
+
+        <section class="search-section">
+            <h2 class="section-title">Search the TMNT Database</h2>
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search for turtles, villains, episodes...">
+                <button id="searchBtn" class="btn btn-search">Search</button>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 TMNT Hub. Cowabunga!</p>
+            <p class="footer-links">
+                <a href="/api/docs" target="_blank">API Docs</a> |
+                <a href="https://github.com" target="_blank">GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
