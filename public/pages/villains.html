@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Villains - TMNT Hub</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">TMNT HUB</div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/pages/turtles.html" class="nav-link">Turtles</a></li>
+                <li><a href="/pages/villains.html" class="nav-link active">Villains</a></li>
+                <li><a href="/pages/episodes.html" class="nav-link">Episodes</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container page-content">
+        <h1 class="page-title villain-title">The Villains of TMNT</h1>
+        <p class="page-subtitle">The greatest threats to our heroes in a half shell</p>
+
+        <div id="villainsContainer" class="villains-grid">
+            <!-- Villain cards will be loaded here -->
+        </div>
+
+        <!-- Modal for villain details -->
+        <div id="villainModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="villainModalContent">
+                    <!-- Villain details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 TMNT Hub. Heroes in a Half Shell!</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script>
+        // Page-specific initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            loadVillains();
+        });
+    </script>
+</body>
+</html>
