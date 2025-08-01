@@ -5,3 +5,5 @@ python-multipart==0.0.6
 typing-extensions==4.9.0
 pytest==7.4.4
 httpx==0.26.0
+convex==0.7.0
+python-dotenv==1.0.0
