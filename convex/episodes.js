@@ -35,7 +35,7 @@ export const getById = query({
   handler: async (ctx, args) => {
     const episode = await ctx.db
       .query("episodes")
-      .withIndex("by_id", (q) => q.eq("episode_id", args.episode_id))
+      .withIndex("by_episode_id", (q) => q.eq("episode_id", args.episode_id))
       .first();
     
     if (!episode) {

@@ -51,6 +51,7 @@ VILLAINS: Dict[str, Villain] = {
         description="The leader of the Foot Clan and arch-nemesis of the Turtles",
         abilities=["Master martial artist", "Strategic genius", "Bladed armor"],
         first_appearance="Episode 1: Turtle Tracks",
+        threat_level="Extreme",
         arch_enemy_of="Splinter",
         image_url="/images/shredder.svg"
     ),
@@ -60,6 +61,7 @@ VILLAINS: Dict[str, Villain] = {
         description="An alien warlord from Dimension X, operates from within a mechanical body",
         abilities=["Super intelligence", "Advanced technology", "Dimensional portal creation"],
         first_appearance="Episode 5: Shredder & Splintered",
+        threat_level="Extreme",
         image_url="/images/krang.svg"
     ),
     "bebop": Villain(
@@ -68,6 +70,7 @@ VILLAINS: Dict[str, Villain] = {
         description="Mutant warthog and Shredder's henchman",
         abilities=["Super strength", "Enhanced durability", "Street fighting"],
         first_appearance="Episode 25: Slash and Destroy",
+        threat_level="Moderate",
         image_url="/images/bebop.svg"
     ),
     "rocksteady": Villain(
@@ -76,6 +79,7 @@ VILLAINS: Dict[str, Villain] = {
         description="Mutant rhinoceros and Shredder's henchman",
         abilities=["Super strength", "Thick hide", "Military training"],
         first_appearance="Episode 25: Slash and Destroy",
+        threat_level="Moderate",
         image_url="/images/rocksteady.svg"
     ),
     "baxter_stockman": Villain(
@@ -84,6 +88,7 @@ VILLAINS: Dict[str, Villain] = {
         description="Mad scientist who creates the Mousers and later becomes a mutant fly",
         abilities=["Scientific genius", "Robotics expert", "Flight (as mutant)"],
         first_appearance="Episode 2: A Better Mousetrap",
+        threat_level="High",
         image_url="/images/baxter_stockman.svg"
     )
 }

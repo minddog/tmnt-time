@@ -19,6 +19,7 @@ class Villain(BaseModel):
     description: str
     abilities: List[str]
     first_appearance: str
+    threat_level: str
     arch_enemy_of: Optional[str] = None
     image_url: Optional[str] = None
 
