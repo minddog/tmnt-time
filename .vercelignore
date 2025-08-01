@@ -1,0 +1,63 @@
+# Exclude unnecessary files from serverless function
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Exclude test files
+tests/
+test_*.py
+*_test.py
+pytest.ini
+.pytest_cache/
+
+# Exclude development files
+*.log
+*.pot
+*.mo
+.env.local
+.env.development
+.env.test
+
+# Exclude documentation
+*.md
+docs/
+README.rst
+LICENSE
+
+# Exclude development dependencies
+requirements-dev.txt
+requirements-test.txt
+
+# Exclude scripts not needed in production
+scripts/
+run_local.py
+run-local.sh
+dev-agent.py
+
+# Exclude data files (using Convex database)
+api/data/episodes/
+api/data/tmnt_data.py
+
+# Exclude Git files
+.git/
+.gitignore
+.gitattributes
+
+# Exclude IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Exclude CI/CD files
+.github/
+.travis.yml
+.gitlab-ci.yml
