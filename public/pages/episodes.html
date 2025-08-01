@@ -38,14 +38,28 @@
                 <label for="seasonFilter">Filter by Season:</label>
                 <select id="seasonFilter" class="season-filter">
                     <option value="">All Seasons</option>
-                    <option value="1">Season 1</option>
-                    <option value="2">Season 2</option>
-                    <option value="3">Season 3</option>
+                    <option value="1">Season 1 (1987)</option>
+                    <option value="2">Season 2 (1988)</option>
+                    <option value="3">Season 3 (1989)</option>
+                    <option value="4">Season 4 (1990)</option>
+                    <option value="5">Season 5 (1991)</option>
+                    <option value="6">Season 6 (1992)</option>
+                    <option value="7">Season 7 (1993)</option>
+                    <option value="8">Season 8 (1994)</option>
+                    <option value="9">Season 9 (1995)</option>
+                    <option value="10">Season 10 (1996)</option>
                 </select>
+            </div>
+            <div class="filter-group">
+                <label for="viewToggle">View:</label>
+                <div class="view-toggle">
+                    <button id="cardViewBtn" class="btn btn-view active">Cards</button>
+                    <button id="tableViewBtn" class="btn btn-view">Table</button>
+                </div>
             </div>
         </div>
 
-        <div id="episodesContainer" class="episodes-list">
+        <div id="episodesContainer" class="episodes-container">
             <!-- Episodes will be loaded here -->
         </div>
 

@@ -1288,6 +1288,36 @@ h1, h2, h3 {
     gap: 0.5rem;
 }
 
+/* View Toggle */
+.view-toggle {
+    display: flex;
+    gap: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 0.25rem;
+    border-radius: 8px;
+}
+
+.btn-view {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-view:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-view.active {
+    background-color: var(--tmnt-green);
+    color: #fff;
+}
+
 .season-filter,
 .episode-search {
     padding: 0.5rem 1rem;
@@ -1349,6 +1379,123 @@ h1, h2, h3 {
     border-radius: 15px;
     margin-right: 0.5rem;
     font-size: 0.875rem;
+}
+
+/* Episode Table View */
+.episodes-table-container {
+    overflow-x: auto;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.episodes-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.episodes-table thead {
+    background-color: rgba(76, 175, 80, 0.15);
+    border-bottom: 2px solid var(--tmnt-green);
+}
+
+.episodes-table th {
+    text-align: left;
+    padding: 1rem;
+    font-weight: 600;
+    color: var(--tmnt-green);
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+}
+
+.episodes-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.episodes-table tbody tr:hover {
+    background-color: rgba(76, 175, 80, 0.05);
+}
+
+.episodes-table td {
+    padding: 1rem;
+    vertical-align: top;
+}
+
+.episode-number-cell {
+    width: 80px;
+    font-weight: 600;
+    color: var(--tmnt-green);
+}
+
+.episode-title-cell {
+    min-width: 200px;
+}
+
+.episode-title-link {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.episode-title-link:hover {
+    color: var(--tmnt-green);
+}
+
+.episode-date-cell {
+    width: 120px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+}
+
+.episode-synopsis-cell {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+.episode-villains-cell {
+    width: 200px;
+}
+
+.episode-actions-cell {
+    width: 180px;
+}
+
+.villain-badge {
+    display: inline-block;
+    background-color: rgba(74, 20, 140, 0.3);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    margin: 0.1rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+/* Episode Thumbnail (for future use) */
+.episode-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 1rem;
+}
+
+.episode-thumbnail-placeholder {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.1));
+    border-radius: 4px;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    color: var(--tmnt-green);
+    font-weight: 600;
 }
 
 /* Pagination */
@@ -1527,5 +1674,33 @@ h1, h2, h3 {
     
     .modal-villain-image {
         margin: 0 auto;
+    }
+    
+    /* Responsive table view */
+    .episodes-table-container {
+        border-radius: 0;
+    }
+    
+    .episodes-table {
+        font-size: 0.85rem;
+    }
+    
+    .episodes-table th,
+    .episodes-table td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .episode-synopsis-cell,
+    .episode-villains-cell {
+        display: none;
+    }
+    
+    .episode-actions-cell {
+        width: auto;
+    }
+    
+    .btn-small {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
     }
 }

@@ -401,6 +401,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Episodes page functionality
+let currentView = 'cards'; // Default view
+
 async function loadEpisodes(season = null, offset = 0) {
     const container = document.getElementById('episodesContainer');
     if (!container) return;
@@ -412,12 +414,16 @@ async function loadEpisodes(season = null, offset = 0) {
 
     const episodes = await fetchAPI(endpoint);
     if (episodes) {
-        displayEpisodes(episodes, container);
+        if (currentView === 'table') {
+            displayEpisodesTable(episodes, container);
+        } else {
+            displayEpisodesCards(episodes, container);
+        }
         updatePagination(episodes.length);
     }
 }
 
-function displayEpisodes(episodes, container) {
+function displayEpisodesCards(episodes, container) {
     container.innerHTML = episodes.map(episode => `
         <div class="episode-card" data-episode-id="${episode.id || episode.episode_id}">
             <div class="episode-header">
@@ -455,10 +461,75 @@ function displayEpisodes(episodes, container) {
     });
 }
 
+function displayEpisodesTable(episodes, container) {
+    container.innerHTML = `
+        <div class="episodes-table-container">
+            <table class="episodes-table">
+                <thead>
+                    <tr>
+                        <th>Episode</th>
+                        <th>Title</th>
+                        <th>Air Date</th>
+                        <th>Synopsis</th>
+                        <th>Villains</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${episodes.map(episode => `
+                        <tr>
+                            <td class="episode-number-cell">
+                                S${episode.season}E${episode.episode_number}
+                            </td>
+                            <td class="episode-title-cell">
+                                <a href="/pages/episode-detail.html?id=${episode.id || episode.episode_id}" class="episode-title-link">
+                                    ${episode.title}
+                                </a>
+                            </td>
+                            <td class="episode-date-cell">
+                                ${episode.air_date || 'N/A'}
+                            </td>
+                            <td class="episode-synopsis-cell">
+                                ${episode.synopsis.length > 150 ? 
+                                    episode.synopsis.substring(0, 150) + '...' : 
+                                    episode.synopsis}
+                            </td>
+                            <td class="episode-villains-cell">
+                                ${episode.villains_featured && episode.villains_featured.length > 0 ? 
+                                    episode.villains_featured.map(villain => 
+                                        `<span class="villain-badge">${villain}</span>`
+                                    ).join('') : 
+                                    '-'
+                                }
+                            </td>
+                            <td class="episode-actions-cell">
+                                <button class="btn btn-small btn-secondary quick-view-btn" data-episode-id="${episode.id || episode.episode_id}">
+                                    Quick View
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    // Add click handlers for modal on the quick view button
+    document.querySelectorAll('.quick-view-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const episodeId = btn.dataset.episodeId;
+            showEpisodeModal(episodeId);
+        });
+    });
+}
+
 function setupEpisodeFilters() {
     const seasonFilter = document.getElementById('seasonFilter');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
+    const tableViewBtn = document.getElementById('tableViewBtn');
+    const cardViewBtn = document.getElementById('cardViewBtn');
 
     if (seasonFilter) {
         seasonFilter.addEventListener('change', () => {
@@ -484,6 +555,28 @@ function setupEpisodeFilters() {
         });
     }
 
+    // View toggle functionality
+    if (tableViewBtn && cardViewBtn) {
+        tableViewBtn.addEventListener('click', () => {
+            if (currentView !== 'table') {
+                currentView = 'table';
+                tableViewBtn.classList.add('active');
+                cardViewBtn.classList.remove('active');
+                const season = seasonFilter?.value || null;
+                loadEpisodes(season, (currentPage - 1) * itemsPerPage);
+            }
+        });
+
+        cardViewBtn.addEventListener('click', () => {
+            if (currentView !== 'cards') {
+                currentView = 'cards';
+                cardViewBtn.classList.add('active');
+                tableViewBtn.classList.remove('active');
+                const season = seasonFilter?.value || null;
+                loadEpisodes(season, (currentPage - 1) * itemsPerPage);
+            }
+        });
+    }
 }
 
 function updatePagination(itemCount) {
