@@ -14,6 +14,8 @@ class ConvexDataClient:
     def __init__(self):
         """Initialize Convex client with URL from environment"""
         self.convex_url = os.environ.get('CONVEX_URL')
+        if self.convex_url:
+            self.convex_url = self.convex_url.strip()  # Remove any whitespace
         self._fallback_data = None
         
         if self.convex_url:
@@ -50,13 +52,30 @@ class ConvexDataClient:
                 'episodes': []
             }
     
+    def _clean_convex_data(self, data: Any) -> Any:
+        """Remove Convex internal fields from data"""
+        if isinstance(data, dict):
+            cleaned = {k: v for k, v in data.items() if not k.startswith('_')}
+            # Convert episode_id back to id and ensure it's an int
+            if 'episode_id' in cleaned:
+                cleaned['id'] = int(cleaned.pop('episode_id'))
+            # Convert float fields to int for episodes
+            if 'season' in cleaned and isinstance(cleaned['season'], float):
+                cleaned['season'] = int(cleaned['season'])
+            if 'episode_number' in cleaned and isinstance(cleaned['episode_number'], float):
+                cleaned['episode_number'] = int(cleaned['episode_number'])
+            return cleaned
+        elif isinstance(data, list):
+            return [self._clean_convex_data(item) for item in data]
+        return data
+    
     def get_turtles(self) -> List[Dict[str, Any]]:
         """Get all turtles"""
         if self._connected:
             try:
                 turtles = self.client.query("turtles:getAll")
                 # Convert Convex format to our API format
-                return list(turtles) if turtles else []
+                return [self._clean_convex_data(t) for t in turtles] if turtles else []
             except Exception as e:
                 print(f"Error querying Convex for turtles: {e}")
         
@@ -70,7 +89,7 @@ class ConvexDataClient:
         if self._connected:
             try:
                 turtle = self.client.query("turtles:getByName", {"name": name})
-                return turtle
+                return self._clean_convex_data(turtle) if turtle else None
             except Exception as e:
                 print(f"Error querying Convex for turtle {name}: {e}")
         
@@ -84,7 +103,7 @@ class ConvexDataClient:
         if self._connected:
             try:
                 villains = self.client.query("villains:getAll")
-                return list(villains) if villains else []
+                return [self._clean_convex_data(v) for v in villains] if villains else []
             except Exception as e:
                 print(f"Error querying Convex for villains: {e}")
         
@@ -98,7 +117,7 @@ class ConvexDataClient:
         if self._connected:
             try:
                 villain = self.client.query("villains:getByName", {"name": name})
-                return villain
+                return self._clean_convex_data(villain) if villain else None
             except Exception as e:
                 print(f"Error querying Convex for villain {name}: {e}")
         
@@ -116,7 +135,7 @@ class ConvexDataClient:
                     params["season"] = season
                 
                 episodes = self.client.query("episodes:getAll", params)
-                return list(episodes) if episodes else []
+                return [self._clean_convex_data(e) for e in episodes] if episodes else []
             except Exception as e:
                 print(f"Error querying Convex for episodes: {e}")
         
@@ -137,7 +156,7 @@ class ConvexDataClient:
         if self._connected:
             try:
                 episode = self.client.query("episodes:getById", {"episode_id": episode_id})
-                return episode
+                return self._clean_convex_data(episode) if episode else None
             except Exception as e:
                 print(f"Error querying Convex for episode {episode_id}: {e}")
         
@@ -157,7 +176,7 @@ class ConvexDataClient:
                     params["character"] = character
                 
                 quotes = self.client.query("quotes:getAll", params)
-                return list(quotes) if quotes else []
+                return [self._clean_convex_data(q) for q in quotes] if quotes else []
             except Exception as e:
                 print(f"Error querying Convex for quotes: {e}")
         
@@ -174,7 +193,7 @@ class ConvexDataClient:
         if self._connected:
             try:
                 quote = self.client.query("quotes:getRandom")
-                return quote
+                return self._clean_convex_data(quote) if quote else None
             except Exception as e:
                 print(f"Error querying Convex for random quote: {e}")
         
@@ -189,7 +208,7 @@ class ConvexDataClient:
         if self._connected:
             try:
                 weapons = self.client.query("weapons:getAll")
-                return list(weapons) if weapons else []
+                return [self._clean_convex_data(w) for w in weapons] if weapons else []
             except Exception as e:
                 print(f"Error querying Convex for weapons: {e}")
         
