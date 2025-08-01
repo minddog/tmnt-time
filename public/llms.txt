@@ -44,12 +44,6 @@ Example: GET https://www.turtletime.dev/api/v1/quotes/random
 Returns all turtle weapons
 Example: GET https://www.turtletime.dev/api/v1/weapons
 
-### GET /search
-Search across all data
-Query parameters:
-- q: Search query (required, min 2 characters)
-Example: GET https://www.turtletime.dev/api/v1/search?q=pizza
-
 ## Response Format
 All responses are JSON formatted
 
@@ -72,6 +66,7 @@ All responses are JSON formatted
   "description": "The leader of the Foot Clan and arch-nemesis of the Turtles",
   "abilities": ["Master martial artist", "Strategic genius", "Bladed armor"],
   "first_appearance": "Episode 1: Turtle Tracks",
+  "threat_level": "Extreme",
   "arch_enemy_of": "Splinter",
   "image_url": "/images/shredder.svg"
 }
@@ -89,7 +84,6 @@ All responses are JSON formatted
 
 ### Quote Object
 {
-  "id": 1,
   "text": "Cowabunga!",
   "character": "Michelangelo",
   "context": "Battle cry"
@@ -104,15 +98,6 @@ All responses are JSON formatted
   "special_moves": ["Double slice", "Spinning blade shield", "Precision strike"]
 }
 
-### Search Results Object
-{
-  "turtles": [...],
-  "villains": [...],
-  "episodes": [...],
-  "quotes": [...],
-  "weapons": [...]
-}
-
 ## Error Responses
 - 200: Success
 - 400: Bad Request
@@ -122,6 +107,9 @@ All responses are JSON formatted
 
 ## Rate Limiting
 1000 requests per hour for reasonable usage
+
+## Support
+For help, FAQs, and contact information, visit: https://www.turtletime.dev/pages/support.html
 
 ## Additional Resources
 - Full API Documentation: https://www.turtletime.dev/pages/api-docs.html

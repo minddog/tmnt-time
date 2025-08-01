@@ -10,14 +10,13 @@ info:
     - 📺 Episode guide with air dates and synopses
     - 💬 Memorable quotes from the series
     - ⚔️ Weapon specifications and special moves
-    - 🔍 Full-text search across all data
     
     ## Getting Started
     The API requires no authentication for basic usage. Simply make requests to the endpoints below.
-  version: 1.0.0
+  version: 3.0.0
   contact:
     name: TMNT API Support
-    url: https://github.com/anthropics/claude-code/issues
+    url: https://www.turtletime.dev/pages/support.html
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
@@ -37,8 +36,6 @@ tags:
     description: Memorable quotes from the series
   - name: Weapons
     description: Turtle weapons and equipment
-  - name: Search
-    description: Search functionality
 
 paths:
   /turtles:
@@ -258,40 +255,6 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
-  /search:
-    get:
-      tags:
-        - Search
-      summary: Search across all data
-      description: Performs a full-text search across turtles, villains, episodes, quotes, and weapons
-      operationId: searchAll
-      parameters:
-        - name: q
-          in: query
-          required: true
-          description: Search query (minimum 2 characters)
-          schema:
-            type: string
-            minLength: 2
-          example: pizza
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchResults'
-        '400':
-          description: Invalid search query
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                detail: "Search query must be at least 2 characters"
-        '422':
-          $ref: '#/components/responses/ValidationError'
-
   /health:
     get:
       tags:
@@ -510,35 +473,6 @@ components:
             type: string
           description: List of special techniques
           example: ["Double slice", "Spinning blade shield", "Precision strike"]
-
-    SearchResults:
-      type: object
-      properties:
-        turtles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Turtle'
-          description: Matching turtle results
-        villains:
-          type: array
-          items:
-            $ref: '#/components/schemas/Villain'
-          description: Matching villain results
-        episodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Episode'
-          description: Matching episode results
-        quotes:
-          type: array
-          items:
-            $ref: '#/components/schemas/Quote'
-          description: Matching quote results
-        weapons:
-          type: array
-          items:
-            $ref: '#/components/schemas/Weapon'
-          description: Matching weapon results
 
     Error:
       type: object

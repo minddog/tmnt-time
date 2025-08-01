@@ -35,7 +35,7 @@ class Episode(BaseModel):
 
 
 class Quote(BaseModel):
-    id: int
+    id: Optional[int] = None
     text: str
     character: str
     episode: Optional[str] = None

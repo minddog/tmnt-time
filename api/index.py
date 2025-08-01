@@ -90,7 +90,10 @@ async def debug_endpoint(response: Response):
     turtles_data = None
     villains_data = None
     episodes_count = None
+    quotes_data = None
+    random_quote_data = None
     error = None
+    quotes_error = None
     try:
         turtles = convex_client.get_turtles()
         turtles_data = f"Loaded {len(turtles)} turtles" if turtles else "No turtles data"
@@ -100,6 +103,19 @@ async def debug_endpoint(response: Response):
         
         episodes = convex_client.get_episodes()
         episodes_count = f"Loaded {len(episodes)} episodes" if episodes else "No episodes data"
+        
+        quotes = convex_client.get_quotes()
+        quotes_data = f"Loaded {len(quotes)} quotes" if quotes else "No quotes data"
+        
+        # Try to get a random quote
+        try:
+            random_quote = convex_client.get_random_quote()
+            random_quote_data = f"Random quote: {random_quote}" if random_quote else "No random quote"
+        except Exception as e:
+            quotes_error = f"Random quote error: {type(e).__name__}: {str(e)}"
+            import traceback
+            quotes_error += "\n" + traceback.format_exc()
+            
     except Exception as e:
         error = f"{type(e).__name__}: {str(e)}"
         import traceback
@@ -111,6 +127,9 @@ async def debug_endpoint(response: Response):
         "turtles_data": turtles_data,
         "villains_data": villains_data,
         "episodes_count": episodes_count,
+        "quotes_data": quotes_data,
+        "random_quote_data": random_quote_data,
         "error": error,
+        "quotes_error": quotes_error,
         "python_version": sys.version
     }

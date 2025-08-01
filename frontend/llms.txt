@@ -108,6 +108,9 @@ All responses are JSON formatted
 ## Rate Limiting
 1000 requests per hour for reasonable usage
 
+## Support
+For help, FAQs, and contact information, visit: https://www.turtletime.dev/pages/support.html
+
 ## Additional Resources
 - Full API Documentation: https://www.turtletime.dev/pages/api-docs.html
 - OpenAPI Specification: https://www.turtletime.dev/openapi.json

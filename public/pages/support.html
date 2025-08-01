@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - TMNT API</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .support-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .support-section {
+            background: var(--surface-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .support-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        .support-section h3 {
+            color: var(--text-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .faq-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+        .faq-question {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .contact-card {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .contact-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .contact-card p {
+            margin: 0.5rem 0;
+        }
+        .contact-card a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .contact-card a:hover {
+            text-decoration: underline;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        .status-online {
+            background-color: #4CAF50;
+        }
+        .status-issues {
+            background-color: #FFC107;
+        }
+        .status-offline {
+            background-color: #F44336;
+        }
+        .code-inline {
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">TMNT HUB</div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/pages/turtles.html" class="nav-link">Turtles</a></li>
+                <li><a href="/pages/villains.html" class="nav-link">Villains</a></li>
+                <li><a href="/pages/episodes.html" class="nav-link">Episodes</a></li>
+                <li><a href="/pages/api-docs.html" class="nav-link">API Docs</a></li>
+                <li><a href="/pages/support.html" class="nav-link active">Support</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container support-container">
+        <h1 class="page-title">Support Center</h1>
+        <p class="page-subtitle">Get help with the TMNT API</p>
+
+        <section class="support-section">
+            <h2>🚦 API Status</h2>
+            <p>
+                <span class="status-indicator status-online"></span>
+                <strong>All Systems Operational</strong>
+            </p>
+            <p>The TMNT API is currently running smoothly. Check the status of individual endpoints:</p>
+            <ul>
+                <li><code class="code-inline">/api/v1/turtles</code> - <span style="color: #4CAF50;">✓ Online</span></li>
+                <li><code class="code-inline">/api/v1/villains</code> - <span style="color: #4CAF50;">✓ Online</span></li>
+                <li><code class="code-inline">/api/v1/episodes</code> - <span style="color: #4CAF50;">✓ Online</span></li>
+                <li><code class="code-inline">/api/v1/quotes</code> - <span style="color: #4CAF50;">✓ Online</span></li>
+                <li><code class="code-inline">/api/v1/weapons</code> - <span style="color: #4CAF50;">✓ Online</span></li>
+            </ul>
+        </section>
+
+        <section class="support-section">
+            <h2>❓ Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">How do I get started with the API?</div>
+                <div class="faq-answer">
+                    The TMNT API requires no authentication. Simply make HTTP requests to our endpoints. 
+                    Check out our <a href="/pages/api-docs.html">API Documentation</a> for detailed examples.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What are the rate limits?</div>
+                <div class="faq-answer">
+                    The API allows up to 1000 requests per hour per IP address. This should be sufficient for most use cases. 
+                    If you need higher limits, please contact us.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Is the API free to use?</div>
+                <div class="faq-answer">
+                    Yes! The TMNT API is completely free for both personal and commercial use. 
+                    We just ask that you be respectful of the rate limits.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can I contribute or suggest new features?</div>
+                <div class="faq-answer">
+                    Absolutely! We welcome contributions and feature suggestions. Please reach out through 
+                    one of the contact methods below.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What data formats are supported?</div>
+                <div class="faq-answer">
+                    Currently, all API responses are in JSON format. We set the appropriate 
+                    <code class="code-inline">Content-Type: application/json</code> headers on all responses.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Is CORS enabled?</div>
+                <div class="faq-answer">
+                    Yes, CORS is enabled for all origins (*), so you can use the API from any web application.
+                </div>
+            </div>
+        </section>
+
+        <section class="support-section">
+            <h2>📚 Resources</h2>
+            <ul>
+                <li><a href="/pages/api-docs.html">API Documentation</a> - Complete endpoint reference and examples</li>
+                <li><a href="/openapi.json">OpenAPI Specification</a> - Machine-readable API definition</li>
+                <li><a href="/llms.txt">LLM-friendly Docs</a> - Simplified documentation for AI assistants</li>
+                <li><a href="https://petstore.swagger.io/?url=https://www.turtletime.dev/openapi.json">Interactive API Explorer</a> - Try out the API in your browser</li>
+            </ul>
+        </section>
+
+        <section class="support-section">
+            <h2>📧 Contact Us</h2>
+            <p>Need help or have questions? We're here to assist!</p>
+            
+            <div class="contact-methods">
+                <div class="contact-card">
+                    <h4>🐙 GitHub</h4>
+                    <p>Report bugs and request features</p>
+                    <a href="https://github.com/minddog/tmnt-time/issues">GitHub Issues</a>
+                </div>
+                
+                <div class="contact-card">
+                    <h4>📧 Email</h4>
+                    <p>For general inquiries</p>
+                    <a href="mailto:support@turtletime.dev">support@turtletime.dev</a>
+                </div>
+                
+                <div class="contact-card">
+                    <h4>🐦 Twitter</h4>
+                    <p>Follow for updates</p>
+                    <a href="https://twitter.com/turtletimeapi">@turtletimeapi</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="support-section">
+            <h2>🛠️ Troubleshooting</h2>
+            
+            <h3>Common Issues</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question">Getting 404 errors?</div>
+                <div class="faq-answer">
+                    Make sure you're using the correct base URL: <code class="code-inline">https://www.turtletime.dev/api/v1</code>
+                    and that the resource name is spelled correctly (e.g., "leonardo" not "Leonardo").
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Receiving 500 errors?</div>
+                <div class="faq-answer">
+                    This might indicate a temporary server issue. Please wait a few minutes and try again. 
+                    If the problem persists, please report it via GitHub Issues.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Data seems outdated?</div>
+                <div class="faq-answer">
+                    API responses are cached for performance. Cache headers are included in responses. 
+                    Most data is cached for 1 hour, except for random quotes which are not cached.
+                </div>
+            </div>
+        </section>
+
+        <section class="support-section">
+            <h2>🚀 About This API</h2>
+            <p>
+                The TMNT API is a fan-made project celebrating the Teenage Mutant Ninja Turtles franchise. 
+                It provides comprehensive data about the turtles, their enemies, episodes, and more from the classic 1987 animated series.
+            </p>
+            <p>
+                Built with FastAPI and powered by Convex, this API is designed to be fast, reliable, and easy to use. 
+                Whether you're building a fan site, creating a trivia app, or just exploring the TMNT universe, we've got you covered!
+            </p>
+            <p style="margin-top: 1rem;">
+                <strong>Cowabunga! 🐢</strong>
+            </p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 TMNT Hub. All rights reserved.</p>
+            <p class="footer-links">
+                <a href="/pages/api-docs.html">API Docs</a> |
+                <a href="/pages/support.html">Support</a> |
+                <a href="https://github.com/minddog/tmnt-time">GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

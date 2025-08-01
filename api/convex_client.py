@@ -192,7 +192,9 @@ class ConvexDataClient:
         """Get a random quote"""
         if self._connected:
             try:
-                quote = self.client.query("quotes:getRandom")
+                import random
+                seed = random.randint(0, 10000)
+                quote = self.client.query("quotes:getRandom", {"seed": seed})
                 return self._clean_convex_data(quote) if quote else None
             except Exception as e:
                 print(f"Error querying Convex for random quote: {e}")

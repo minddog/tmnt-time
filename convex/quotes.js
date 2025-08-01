@@ -20,15 +20,19 @@ export const getAll = query({
 
 // Get a random quote
 export const getRandom = query({
-  args: {},
-  handler: async (ctx) => {
+  args: {
+    seed: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
     const quotes = await ctx.db.query("quotes").collect();
     
     if (quotes.length === 0) {
       throw new Error("No quotes available");
     }
     
-    const randomIndex = Math.floor(Math.random() * quotes.length);
+    // Use seed if provided, otherwise use random
+    const seed = args.seed || Math.floor(Math.random() * 10000);
+    const randomIndex = seed % quotes.length;
     return quotes[randomIndex];
   },
 });
