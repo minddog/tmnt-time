@@ -46,6 +46,43 @@ export const getById = query({
   },
 });
 
+// Add a new episode
+export const addEpisode = mutation({
+  args: {
+    episode_id: v.number(),
+    title: v.string(),
+    season: v.number(),
+    episode_number: v.number(),
+    air_date: v.string(),
+    synopsis: v.string(),
+    cast: v.optional(v.array(v.object({
+      character_name: v.string(),
+      voice_actor: v.string(),
+      role: v.string(),
+    }))),
+    writer: v.optional(v.string()),
+    director: v.optional(v.string()),
+    notes: v.optional(v.string()),
+    villains_featured: v.optional(v.array(v.string())),
+  },
+  handler: async (ctx, args) => {
+    // Check if episode already exists
+    const existing = await ctx.db
+      .query("episodes")
+      .withIndex("by_episode_id", (q) => q.eq("episode_id", args.episode_id))
+      .first();
+    
+    if (existing) {
+      throw new Error(`Episode ${args.episode_id} already exists`);
+    }
+    
+    // Add the episode
+    await ctx.db.insert("episodes", args);
+    
+    return { success: true, episode_id: args.episode_id };
+  },
+});
+
 // Update episode with cast and production information
 export const updateEpisode = mutation({
   args: {

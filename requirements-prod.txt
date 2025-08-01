@@ -1,5 +1,0 @@
-# Production requirements - minimal for Vercel serverless
-fastapi==0.109.0
-pydantic==2.5.3
-convex==0.7.0
-python-dotenv==1.0.0
