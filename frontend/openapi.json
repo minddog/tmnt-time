@@ -2,8 +2,8 @@
   "openapi": "3.0.3",
   "info": {
     "title": "TMNT API",
-    "description": "The ultimate Teenage Mutant Ninja Turtles API providing comprehensive data about turtles, villains, episodes, quotes, and weapons.\n\n## Features\n- 🐢 Complete turtle profiles with personalities and preferences\n- 👹 Detailed villain information including abilities\n- 📺 Episode guide with air dates and synopses\n- 💬 Memorable quotes from the series\n- ⚔️ Weapon specifications and special moves\n- 🔍 Full-text search across all data\n\n## Getting Started\nThe API requires no authentication for basic usage. Simply make requests to the endpoints below.",
-    "version": "1.0.0",
+    "description": "The ultimate Teenage Mutant Ninja Turtles API providing comprehensive data about turtles, villains, episodes, quotes, and weapons.\n\n## Features\n- \ud83d\udc22 Complete turtle profiles with personalities and preferences\n- \ud83d\udc79 Detailed villain information including abilities\n- \ud83d\udcfa Episode guide with air dates and synopses\n- \ud83d\udcac Memorable quotes from the series\n- \u2694\ufe0f Weapon specifications and special moves\n\n## Getting Started\nThe API requires no authentication for basic usage. Simply make requests to the endpoints below.\n",
+    "version": "3.0.0",
     "contact": {
       "name": "TMNT API Support",
       "url": "https://github.com/anthropics/claude-code/issues"
@@ -39,16 +39,14 @@
     {
       "name": "Weapons",
       "description": "Turtle weapons and equipment"
-    },
-    {
-      "name": "Search",
-      "description": "Search functionality"
     }
   ],
   "paths": {
     "/turtles": {
       "get": {
-        "tags": ["Turtles"],
+        "tags": [
+          "Turtles"
+        ],
         "summary": "Get all turtles",
         "description": "Returns a list of all four Ninja Turtles with their complete profiles",
         "operationId": "getAllTurtles",
@@ -100,7 +98,9 @@
     },
     "/turtles/{name}": {
       "get": {
-        "tags": ["Turtles"],
+        "tags": [
+          "Turtles"
+        ],
         "summary": "Get a specific turtle",
         "description": "Returns detailed information about a specific turtle by name",
         "operationId": "getTurtleByName",
@@ -112,7 +112,12 @@
             "description": "The turtle's name (lowercase)",
             "schema": {
               "type": "string",
-              "enum": ["leonardo", "donatello", "raphael", "michelangelo"]
+              "enum": [
+                "leonardo",
+                "donatello",
+                "raphael",
+                "michelangelo"
+              ]
             },
             "examples": {
               "leonardo": {
@@ -156,7 +161,9 @@
     },
     "/villains": {
       "get": {
-        "tags": ["Villains"],
+        "tags": [
+          "Villains"
+        ],
         "summary": "Get all villains",
         "description": "Returns a list of all TMNT villains with their profiles and abilities",
         "operationId": "getAllVillains",
@@ -182,7 +189,9 @@
     },
     "/villains/{name}": {
       "get": {
-        "tags": ["Villains"],
+        "tags": [
+          "Villains"
+        ],
         "summary": "Get a specific villain",
         "description": "Returns detailed information about a specific villain by name",
         "operationId": "getVillainByName",
@@ -194,7 +203,13 @@
             "description": "The villain's name (lowercase, underscores for spaces)",
             "schema": {
               "type": "string",
-              "enum": ["shredder", "krang", "bebop", "rocksteady", "baxter_stockman"]
+              "enum": [
+                "shredder",
+                "krang",
+                "bebop",
+                "rocksteady",
+                "baxter_stockman"
+              ]
             },
             "examples": {
               "shredder": {
@@ -235,7 +250,9 @@
     },
     "/episodes": {
       "get": {
-        "tags": ["Episodes"],
+        "tags": [
+          "Episodes"
+        ],
         "summary": "Get episodes",
         "description": "Returns a paginated list of episodes with optional filtering by season",
         "operationId": "getEpisodes",
@@ -298,7 +315,9 @@
     },
     "/quotes/random": {
       "get": {
-        "tags": ["Quotes"],
+        "tags": [
+          "Quotes"
+        ],
         "summary": "Get a random quote",
         "description": "Returns a random quote from the TMNT series",
         "operationId": "getRandomQuote",
@@ -327,7 +346,9 @@
     },
     "/weapons": {
       "get": {
-        "tags": ["Weapons"],
+        "tags": [
+          "Weapons"
+        ],
         "summary": "Get all weapons",
         "description": "Returns a list of all turtle weapons with specifications",
         "operationId": "getAllWeapons",
@@ -351,58 +372,11 @@
         }
       }
     },
-    "/search": {
-      "get": {
-        "tags": ["Search"],
-        "summary": "Search across all data",
-        "description": "Performs a full-text search across turtles, villains, episodes, quotes, and weapons",
-        "operationId": "searchAll",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": true,
-            "description": "Search query (minimum 2 characters)",
-            "schema": {
-              "type": "string",
-              "minLength": 2
-            },
-            "example": "pizza"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchResults"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid search query",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                },
-                "example": {
-                  "detail": "Search query must be at least 2 characters"
-                }
-              }
-            }
-          },
-          "422": {
-            "$ref": "#/components/responses/ValidationError"
-          }
-        }
-      }
-    },
     "/health": {
       "get": {
-        "tags": ["System"],
+        "tags": [
+          "System"
+        ],
         "summary": "Health check",
         "description": "Check if the API is running and healthy",
         "operationId": "healthCheck",
@@ -463,7 +437,12 @@
           "color": {
             "type": "string",
             "description": "Bandana color",
-            "enum": ["blue", "purple", "red", "orange"],
+            "enum": [
+              "blue",
+              "purple",
+              "red",
+              "orange"
+            ],
             "example": "blue"
           },
           "weapon": {
@@ -497,10 +476,10 @@
         "type": "object",
         "required": [
           "name",
-          "real_name",
           "description",
           "abilities",
           "first_appearance",
+          "threat_level",
           "image_url"
         ],
         "properties": {
@@ -511,6 +490,7 @@
           },
           "real_name": {
             "type": "string",
+            "nullable": true,
             "description": "Character's real name",
             "example": "Oroku Saki"
           },
@@ -525,12 +505,27 @@
               "type": "string"
             },
             "description": "List of abilities and skills",
-            "example": ["Master martial artist", "Strategic genius", "Bladed armor"]
+            "example": [
+              "Master martial artist",
+              "Strategic genius",
+              "Bladed armor"
+            ]
           },
           "first_appearance": {
             "type": "string",
             "description": "First episode appearance",
             "example": "Episode 1: Turtle Tracks"
+          },
+          "threat_level": {
+            "type": "string",
+            "description": "Danger level assessment",
+            "enum": [
+              "Low",
+              "Moderate",
+              "High",
+              "Extreme"
+            ],
+            "example": "Extreme"
           },
           "arch_enemy_of": {
             "type": "string",
@@ -594,24 +589,20 @@
               "type": "string"
             },
             "description": "Villains appearing in episode",
-            "example": ["Shredder", "Foot Soldiers"]
+            "example": [
+              "Shredder",
+              "Foot Soldiers"
+            ]
           }
         }
       },
       "Quote": {
         "type": "object",
         "required": [
-          "id",
           "text",
-          "character",
-          "context"
+          "character"
         ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique quote ID",
-            "example": 1
-          },
           "text": {
             "type": "string",
             "description": "The quote text",
@@ -629,6 +620,7 @@
           },
           "context": {
             "type": "string",
+            "nullable": true,
             "description": "Context or situation",
             "example": "Battle cry"
           }
@@ -670,47 +662,11 @@
               "type": "string"
             },
             "description": "List of special techniques",
-            "example": ["Double slice", "Spinning blade shield", "Precision strike"]
-          }
-        }
-      },
-      "SearchResults": {
-        "type": "object",
-        "properties": {
-          "turtles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Turtle"
-            },
-            "description": "Matching turtle results"
-          },
-          "villains": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Villain"
-            },
-            "description": "Matching villain results"
-          },
-          "episodes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Episode"
-            },
-            "description": "Matching episode results"
-          },
-          "quotes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Quote"
-            },
-            "description": "Matching quote results"
-          },
-          "weapons": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Weapon"
-            },
-            "description": "Matching weapon results"
+            "example": [
+              "Double slice",
+              "Spinning blade shield",
+              "Precision strike"
+            ]
           }
         }
       },

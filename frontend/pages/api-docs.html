@@ -60,7 +60,6 @@
                         <li><a href="#episodes-endpoints">Episodes</a></li>
                         <li><a href="#quotes-endpoints">Quotes</a></li>
                         <li><a href="#weapons-endpoints">Weapons</a></li>
-                        <li><a href="#search-endpoint">Search</a></li>
                     </ul>
                 </li>
                 <li><a href="#response-format">Response Format</a></li>
@@ -360,53 +359,6 @@
                     </div>
                 </div>
 
-                <div id="search-endpoint" class="endpoint-group">
-                    <h3>🔍 Search</h3>
-                    
-                    <div class="endpoint">
-                        <div class="endpoint-header">
-                            <span class="method get">GET</span>
-                            <span class="path">/search</span>
-                        </div>
-                        <p class="endpoint-description">Search across all TMNT data</p>
-                        
-                        <table class="params-table">
-                            <thead>
-                                <tr>
-                                    <th>Query Parameter</th>
-                                    <th>Type</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><code>q</code></td>
-                                    <td>string</td>
-                                    <td>Search query (min 2 characters)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
-                        <div class="endpoint-example">
-                            <h4>Example Request</h4>
-                            <div class="code-block">
-                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                                <pre><code>curl "https://www.turtletime.dev/api/v1/search?q=pizza"</code></pre>
-                            </div>
-                            
-                            <h4>Response Structure</h4>
-                            <div class="code-block">
-                                <pre><code class="language-json">{
-  "turtles": [...],
-  "villains": [...],
-  "episodes": [...],
-  "quotes": [...],
-  "weapons": [...]
-}</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </section>
 
             <section id="response-format" class="api-section">
@@ -505,17 +457,6 @@ async function getTurtle(name) {
   } catch (error) {
     console.error('Error:', error);
   }
-}
-
-// Search
-async function searchTMNT(query) {
-  try {
-    const response = await fetch(`https://www.turtletime.dev/api/v1/search?q=${encodeURIComponent(query)}`);
-    const results = await response.json();
-    console.log(results);
-  } catch (error) {
-    console.error('Error:', error);
-  }
 }</code></pre>
                     </div>
                 </div>
@@ -546,15 +487,6 @@ def get_turtle(name):
     else:
         raise Exception(f"API request failed with status {response.status_code}")
 
-# Search
-def search_tmnt(query):
-    params = {"q": query}
-    response = requests.get(f"{BASE_URL}/search", params=params)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        raise Exception(f"Search failed with status {response.status_code}")
-
 # Example usage
 if __name__ == "__main__":
     # Get all turtles
@@ -563,11 +495,7 @@ if __name__ == "__main__":
     
     # Get Leonardo
     leo = get_turtle("leonardo")
-    print(f"{leo['full_name']} uses {leo['weapon']}")
-    
-    # Search for pizza
-    results = search_tmnt("pizza")
-    print(f"Found {len(results['turtles'])} turtles who like pizza")</code></pre>
+    print(f"{leo['full_name']} uses {leo['weapon']}")</code></pre>
                     </div>
                 </div>
 
@@ -589,9 +517,6 @@ curl "https://www.turtletime.dev/api/v1/episodes?season=1"
 
 # Get random quote
 curl https://www.turtletime.dev/api/v1/quotes/random
-
-# Search for "shredder"
-curl "https://www.turtletime.dev/api/v1/search?q=shredder"
 
 # Pretty print with jq
 curl https://www.turtletime.dev/api/v1/turtles | jq '.'</code></pre>
@@ -631,14 +556,6 @@ function getTurtle($name) {
     }
 }
 
-// Search
-function searchTMNT($query) {
-    global $baseUrl;
-    $query = urlencode($query);
-    $response = file_get_contents("$baseUrl/search?q=$query");
-    return json_decode($response, true);
-}
-
 // Example usage
 try {
     // Get all turtles
@@ -648,10 +565,6 @@ try {
     // Get Leonardo
     $leo = getTurtle("leonardo");
     echo $leo['full_name'] . " uses " . $leo['weapon'] . "\n";
-    
-    // Search
-    $results = searchTMNT("pizza");
-    echo "Search found " . count($results['turtles']) . " turtles\n";
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage() . "\n";
 }
