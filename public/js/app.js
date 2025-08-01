@@ -58,9 +58,6 @@ if (document.getElementById('randomQuoteBtn')) {
 
     // Load weapons on homepage
     loadWeapons();
-
-    // Setup search functionality
-    setupSearch();
 }
 
 // Load weapons for homepage
@@ -89,90 +86,6 @@ async function loadWeapons() {
     }
 }
 
-// Search functionality
-function setupSearch() {
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const searchResults = document.getElementById('searchResults');
-
-    if (!searchInput || !searchBtn) return;
-
-    const performSearch = async () => {
-        const query = searchInput.value.trim();
-        if (query.length < 2) {
-            alert('Please enter at least 2 characters to search');
-            return;
-        }
-
-        const results = await fetchAPI(`/search?q=${encodeURIComponent(query)}`);
-        if (results) {
-            displaySearchResults(results, searchResults);
-        }
-    };
-
-    searchBtn.addEventListener('click', performSearch);
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') performSearch();
-    });
-}
-
-function displaySearchResults(results, container) {
-    let html = '';
-
-    if (results.turtles.length > 0) {
-        html += `
-            <div class="search-result-section">
-                <h3>Turtles</h3>
-                ${results.turtles.map(turtle => `
-                    <div class="search-result-item">
-                        <strong>${turtle.full_name}</strong> - ${turtle.personality}
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    if (results.villains.length > 0) {
-        html += `
-            <div class="search-result-section">
-                <h3>Villains</h3>
-                ${results.villains.map(villain => `
-                    <div class="search-result-item">
-                        <strong>${villain.name}</strong> - ${villain.description}
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    if (results.episodes.length > 0) {
-        html += `
-            <div class="search-result-section">
-                <h3>Episodes</h3>
-                ${results.episodes.map(episode => `
-                    <div class="search-result-item">
-                        <strong>${episode.title}</strong> - ${episode.synopsis}
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    if (results.quotes.length > 0) {
-        html += `
-            <div class="search-result-section">
-                <h3>Quotes</h3>
-                ${results.quotes.map(quote => `
-                    <div class="search-result-item">
-                        "${quote.text}" - <em>${quote.character}</em>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    container.innerHTML = html || '<p>No results found.</p>';
-}
 
 // Turtles page functionality
 async function loadTurtles() {
@@ -188,21 +101,25 @@ async function loadTurtles() {
 function displayTurtles(turtles, container) {
     container.innerHTML = turtles.map(turtle => `
         <div class="turtle-card ${turtle.name}" data-turtle="${turtle.name}">
-            <img src="${turtle.image_url}" alt="${turtle.full_name}" class="turtle-image" loading="lazy">
-            <h2>${turtle.full_name}</h2>
-            <span class="color-badge ${turtle.color}">${turtle.color.toUpperCase()}</span>
-            <p><strong>Weapon:</strong> ${turtle.weapon}</p>
-            <p><strong>Personality:</strong> ${turtle.personality}</p>
-            <p><strong>Favorite Pizza:</strong> ${turtle.favorite_pizza}</p>
-            <p><em>"${turtle.catchphrase}"</em></p>
+            <div class="turtle-image-container">
+                <img src="${turtle.image_url}" alt="${turtle.full_name}" class="turtle-image">
+            </div>
+            <div class="turtle-info">
+                <h2>${turtle.full_name}</h2>
+                <span class="color-badge ${turtle.color}">${turtle.color.toUpperCase()}</span>
+                <p><strong>Weapon:</strong> ${turtle.weapon}</p>
+                <p><strong>Personality:</strong> ${turtle.personality}</p>
+                <p><strong>Favorite Pizza:</strong> ${turtle.favorite_pizza}</p>
+                <p><em>"${turtle.catchphrase}"</em></p>
+            </div>
         </div>
     `).join('');
 
-    // Add click handlers
+    // Add click handlers for modal
     document.querySelectorAll('.turtle-card').forEach(card => {
         card.addEventListener('click', () => {
             const turtleName = card.dataset.turtle;
-            showTurtleDetail(turtleName);
+            showTurtleModal(turtleName);
         });
     });
 }
@@ -231,79 +148,77 @@ function setupTurtleFilters() {
 }
 
 async function showTurtleDetail(turtleName) {
+    const detailDiv = document.getElementById('turtleDetail');
+    const turtle = await fetchAPI(`/turtles/${turtleName}`);
+    
+    if (turtle && detailDiv) {
+        detailDiv.innerHTML = `
+            <div class="turtle-detail-content">
+                <h2>${turtle.full_name}</h2>
+                <div class="turtle-detail-info">
+                    <p><strong>Color:</strong> ${turtle.color}</p>
+                    <p><strong>Weapon:</strong> ${turtle.weapon}</p>
+                    <p><strong>Personality:</strong> ${turtle.personality}</p>
+                    <p><strong>Favorite Pizza:</strong> ${turtle.favorite_pizza}</p>
+                    <p><strong>Catchphrase:</strong> "${turtle.catchphrase}"</p>
+                </div>
+            </div>
+        `;
+        detailDiv.classList.remove('hidden');
+        
+        // Scroll to detail
+        detailDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+async function showTurtleModal(turtleName) {
     const modal = document.getElementById('turtleModal');
     const modalContent = document.getElementById('turtleModalContent');
     const turtle = await fetchAPI(`/turtles/${turtleName}`);
-    
+
     if (turtle && modal && modalContent) {
-        // Get weapon stats based on turtle
-        const weaponStats = getWeaponStats(turtle.weapon);
-        
         modalContent.innerHTML = `
-            <div class="turtle-modal-hero ${turtle.name}">
-                <img src="${turtle.image_url}" alt="${turtle.full_name}" class="turtle-modal-image">
-                <div class="turtle-particles"></div>
+            <div class="modal-header turtle-modal-header ${turtle.name}">
+                <div class="modal-turtle-image">
+                    <img src="${turtle.image_url}" alt="${turtle.full_name}">
+                </div>
+                <div class="modal-turtle-title">
+                    <h2>${turtle.full_name}</h2>
+                    <span class="color-badge ${turtle.color}">${turtle.color.toUpperCase()}</span>
+                </div>
             </div>
-            <div class="turtle-modal-details">
-                <h2 class="turtle-modal-name">${turtle.full_name}</h2>
-                <span class="turtle-modal-badge ${turtle.color}">${turtle.color.toUpperCase()} NINJA</span>
-                
-                <div class="turtle-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Weapon</span>
-                        <span class="stat-value">${turtle.weapon}</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Pizza</span>
-                        <span class="stat-value">${turtle.favorite_pizza}</span>
-                    </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>Profile</h3>
+                    <p><strong>Weapon of Choice:</strong> ${turtle.weapon}</p>
+                    <p><strong>Personality:</strong> ${turtle.personality}</p>
+                    <p><strong>Favorite Pizza:</strong> ${turtle.favorite_pizza}</p>
                 </div>
                 
-                <div class="weapon-abilities">
-                    <h3>Weapon Abilities</h3>
-                    <div class="ability-bars">
-                        <div class="ability-bar">
-                            <span>Power</span>
-                            <div class="bar-bg">
-                                <div class="bar-fill ${turtle.color}" style="width: ${weaponStats.power}%"></div>
-                            </div>
-                        </div>
-                        <div class="ability-bar">
-                            <span>Speed</span>
-                            <div class="bar-bg">
-                                <div class="bar-fill ${turtle.color}" style="width: ${weaponStats.speed}%"></div>
-                            </div>
-                        </div>
-                        <div class="ability-bar">
-                            <span>Range</span>
-                            <div class="bar-bg">
-                                <div class="bar-fill ${turtle.color}" style="width: ${weaponStats.range}%"></div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="modal-section">
+                    <h3>Signature Catchphrase</h3>
+                    <p class="catchphrase">"${turtle.catchphrase}"</p>
                 </div>
                 
-                <p class="turtle-personality"><strong>Personality:</strong> ${turtle.personality}</p>
-                
-                <div class="turtle-catchphrase">
-                    <span class="quote-mark">"</span>
-                    ${turtle.catchphrase}
-                    <span class="quote-mark">"</span>
+                <div class="modal-section">
+                    <h3>About ${turtle.full_name.split(' ')[0]}</h3>
+                    <p>${getTurtleDescription(turtle.name)}</p>
                 </div>
-                
-                <button class="action-btn ${turtle.color}" onclick="playTurtleSound('${turtle.name}')">
-                    🔊 Hear Battle Cry!
-                </button>
             </div>
         `;
-        
-        // Show modal with animation
         modal.style.display = 'block';
-        setTimeout(() => modal.classList.add('show'), 10);
-        
-        // Add particle effects
-        createParticles(turtle.color);
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
     }
+}
+
+function getTurtleDescription(name) {
+    const descriptions = {
+        leonardo: "The eldest and most disciplined of the four brothers, Leonardo serves as the team's leader. His dedication to ninjutsu and unwavering sense of responsibility often puts him at odds with his more carefree brothers, but his tactical mind and cool head under pressure make him an invaluable asset in battle.",
+        donatello: "The genius inventor and tech expert of the team, Donatello combines his mastery of the bo staff with an incredible aptitude for science and technology. His inventions and gadgets often give the turtles the edge they need against their technologically advanced enemies.",
+        raphael: "Hot-headed and aggressive, Raphael is the team's powerhouse. His twin sai and fierce fighting style make him a formidable opponent, though his temper sometimes gets the better of him. Despite his rough exterior, he deeply cares for his brothers and would do anything to protect them.",
+        michelangelo: "The youngest and most lighthearted of the brothers, Michelangelo brings levity to even the darkest situations. His mastery of the nunchaku is matched only by his love of pizza and terrible jokes. While others may underestimate him due to his playful nature, his natural agility and unpredictability make him a skilled warrior."
+    };
+    return descriptions[name] || "A skilled ninja turtle and valued member of the team.";
 }
 
 // Villains page functionality
@@ -315,16 +230,21 @@ async function loadVillains() {
     if (villains) {
         container.innerHTML = villains.map(villain => `
             <div class="villain-card" data-villain="${villain.name}">
-                <img src="${villain.image_url}" alt="${villain.name}" class="villain-image" loading="lazy">
-                <h2>${villain.name.replace(/_/g, ' ').toUpperCase()}</h2>
-                ${villain.real_name ? `<p><em>Real Name: ${villain.real_name}</em></p>` : ''}
-                <p>${villain.description}</p>
-                <div class="villain-abilities">
-                    ${villain.abilities.map(ability => 
-                        `<span class="ability-tag">${ability}</span>`
-                    ).join('')}
+                <div class="villain-image-container">
+                    <img src="${villain.image_url}" alt="${villain.name}" class="villain-image">
                 </div>
-                <p><small>First Appearance: ${villain.first_appearance}</small></p>
+                <div class="villain-info">
+                    <h2>${villain.name.replace(/_/g, ' ').toUpperCase()}</h2>
+                    ${villain.real_name ? `<p><em>Real Name: ${villain.real_name}</em></p>` : ''}
+                    <p>${villain.description}</p>
+                    <div class="villain-abilities">
+                        ${villain.abilities.map(ability => 
+                            `<span class="ability-tag">${ability}</span>`
+                        ).join('')}
+                    </div>
+                    <p><small>First Appearance: ${villain.first_appearance}</small></p>
+                    ${villain.threat_level ? `<p class="threat-level">Threat Level: <span class="threat-${villain.threat_level.toLowerCase()}">${villain.threat_level}</span></p>` : ''}
+                </div>
             </div>
         `).join('');
 
@@ -344,106 +264,140 @@ async function showVillainModal(villainName) {
     const villain = await fetchAPI(`/villains/${villainName}`);
 
     if (villain && modal && modalContent) {
-        // Get villain threat level based on name
-        const threatLevel = getVillainThreatLevel(villain.name);
-        
         modalContent.innerHTML = `
-            <div class="villain-modal-hero ${villain.name}">
-                <img src="${villain.image_url}" alt="${villain.name}" class="villain-modal-image">
-                <div class="villain-particles"></div>
+            <div class="modal-header">
+                <div class="modal-villain-image">
+                    <img src="${villain.image_url}" alt="${villain.name}">
+                </div>
+                <div class="modal-villain-title">
+                    <h2>${villain.name.replace(/_/g, ' ')}</h2>
+                    ${villain.real_name ? `<p>Real Name: ${villain.real_name}</p>` : ''}
+                </div>
             </div>
-            <div class="villain-modal-details">
-                <h2 class="villain-modal-name">${villain.name.replace(/_/g, ' ').toUpperCase()}</h2>
-                ${villain.real_name ? `<span class="villain-modal-badge">AKA: ${villain.real_name}</span>` : ''}
-                
-                <div class="villain-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Type</span>
-                        <span class="stat-value">${getVillainType(villain.name)}</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">First Seen</span>
-                        <span class="stat-value">${villain.first_appearance.split(':')[0]}</span>
-                    </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>Description</h3>
+                    <p>${villain.description}</p>
                 </div>
                 
-                <div class="threat-assessment">
-                    <h3>Threat Assessment</h3>
-                    <div class="ability-bars">
-                        <div class="ability-bar">
-                            <span>Power</span>
-                            <div class="bar-bg">
-                                <div class="bar-fill villain" style="width: ${threatLevel.power}%"></div>
-                            </div>
-                        </div>
-                        <div class="ability-bar">
-                            <span>Intelligence</span>
-                            <div class="bar-bg">
-                                <div class="bar-fill villain" style="width: ${threatLevel.intelligence}%"></div>
-                            </div>
-                        </div>
-                        <div class="ability-bar">
-                            <span>Danger</span>
-                            <div class="bar-bg">
-                                <div class="bar-fill villain" style="width: ${threatLevel.danger}%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <p class="villain-description">${villain.description}</p>
-                
-                <div class="villain-abilities">
-                    <h3>Special Abilities</h3>
-                    <div class="abilities-grid">
+                <div class="modal-section">
+                    <h3>Abilities & Powers</h3>
+                    <div class="modal-abilities">
                         ${villain.abilities.map(ability => 
-                            `<span class="ability-tag-modal">${ability}</span>`
+                            `<span class="ability-tag">${ability}</span>`
                         ).join('')}
                     </div>
                 </div>
                 
-                ${villain.arch_enemy_of ? `
-                    <div class="arch-enemy">
-                        <span class="enemy-label">Arch Enemy:</span>
-                        <span class="enemy-name">${villain.arch_enemy_of}</span>
-                    </div>
-                ` : ''}
-                
-                <button class="action-btn villain" onclick="playVillainSound('${villain.name}')">
-                    ⚡ Activate Evil Laugh!
-                </button>
+                <div class="modal-section">
+                    <h3>Details</h3>
+                    <p><strong>First Appearance:</strong> ${villain.first_appearance}</p>
+                    ${villain.threat_level ? `<p><strong>Threat Level:</strong> <span class="threat-${villain.threat_level.toLowerCase()}">${villain.threat_level}</span></p>` : ''}
+                    ${villain.arch_enemy_of ? `<p><strong>Arch Enemy of:</strong> ${villain.arch_enemy_of}</p>` : ''}
+                </div>
             </div>
         `;
-        
-        // Show modal with animation
         modal.style.display = 'block';
-        setTimeout(() => modal.classList.add('show'), 10);
-        
-        // Add particle effects
-        createVillainParticles();
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
     }
 }
 
-// Update modal close for villain modal
-document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('villainModal');
-    const closeBtn = modal?.querySelector('.close-modal');
+async function showEpisodeModal(episodeId) {
+    const modal = document.getElementById('episodeModal');
+    const modalContent = document.getElementById('episodeModalContent');
+    const episode = await fetchAPI(`/episodes/${episodeId}`);
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('show');
-            setTimeout(() => modal.style.display = 'none', 300);
-        });
+    if (episode && modal && modalContent) {
+        // Generate cast list HTML
+        const castListHTML = episode.cast && episode.cast.length > 0 ? `
+            <div class="modal-section">
+                <h3>Voice Cast</h3>
+                <div class="cast-grid">
+                    ${episode.cast.map(member => `
+                        <div class="cast-member ${member.role}">
+                            <div class="character-name">${member.character_name}</div>
+                            <div class="voice-actor">Voiced by: ${member.voice_actor}</div>
+                            <span class="role-badge">${member.role}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        ` : '';
+
+        modalContent.innerHTML = `
+            <div class="modal-header episode-modal-header">
+                <div class="episode-modal-info">
+                    <h2>${episode.title}</h2>
+                    <div class="episode-meta">
+                        <span class="episode-badge">Season ${episode.season}, Episode ${episode.episode_number}</span>
+                        ${episode.air_date ? `<span class="air-date">Aired: ${episode.air_date}</span>` : ''}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>Synopsis</h3>
+                    <p>${episode.synopsis}</p>
+                </div>
+                
+                ${episode.villains_featured && episode.villains_featured.length > 0 ? `
+                    <div class="modal-section">
+                        <h3>Featured Villains</h3>
+                        <div class="modal-villains">
+                            ${episode.villains_featured.map(villain => 
+                                `<span class="villain-tag large">${villain}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                ${castListHTML}
+                
+                ${episode.writer || episode.director ? `
+                    <div class="modal-section">
+                        <h3>Credits</h3>
+                        ${episode.writer ? `<p><strong>Written by:</strong> ${episode.writer}</p>` : ''}
+                        ${episode.director ? `<p><strong>Directed by:</strong> ${episode.director}</p>` : ''}
+                    </div>
+                ` : ''}
+                
+                ${episode.notes ? `
+                    <div class="modal-section">
+                        <h3>Production Notes</h3>
+                        <p>${episode.notes}</p>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
     }
+}
 
-    if (modal) {
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('show');
-                setTimeout(() => modal.style.display = 'none', 300);
+// Modal close functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const villainModal = document.getElementById('villainModal');
+    const turtleModal = document.getElementById('turtleModal');
+    const episodeModal = document.getElementById('episodeModal');
+    
+    // Close button handlers
+    document.querySelectorAll('.close').forEach(closeBtn => {
+        closeBtn.addEventListener('click', () => {
+            const modal = closeBtn.closest('.modal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = ''; // Restore scrolling
             }
         });
-    }
+    });
+
+    // Click outside to close
+    window.addEventListener('click', (e) => {
+        if (e.target === villainModal || e.target === turtleModal || e.target === episodeModal) {
+            e.target.style.display = 'none';
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+    });
 });
 
 // Episodes page functionality
@@ -465,14 +419,14 @@ async function loadEpisodes(season = null, offset = 0) {
 
 function displayEpisodes(episodes, container) {
     container.innerHTML = episodes.map(episode => `
-        <div class="episode-card">
+        <div class="episode-card" data-episode-id="${episode.id || episode.episode_id}">
             <div class="episode-header">
                 <h3 class="episode-title">${episode.title}</h3>
                 <span class="episode-info">S${episode.season}E${episode.episode_number}</span>
             </div>
             ${episode.air_date ? `<p class="episode-date">Aired: ${episode.air_date}</p>` : ''}
             <p class="episode-synopsis">${episode.synopsis}</p>
-            ${episode.villains_featured.length > 0 ? `
+            ${episode.villains_featured && episode.villains_featured.length > 0 ? `
                 <div class="episode-villains">
                     <strong>Featured Villains:</strong>
                     ${episode.villains_featured.map(villain => 
@@ -480,13 +434,29 @@ function displayEpisodes(episodes, container) {
                     ).join('')}
                 </div>
             ` : ''}
+            <div class="episode-actions">
+                <button class="btn btn-small btn-secondary quick-view-btn" data-episode-id="${episode.id || episode.episode_id}">
+                    <span>Quick View</span>
+                </button>
+                <a href="/pages/episode-detail.html?id=${episode.id || episode.episode_id}" class="btn btn-small btn-primary">
+                    <span>Full Details →</span>
+                </a>
+            </div>
         </div>
     `).join('');
+
+    // Add click handlers for modal on the quick view button
+    document.querySelectorAll('.quick-view-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent card click
+            const episodeId = btn.dataset.episodeId;
+            showEpisodeModal(episodeId);
+        });
+    });
 }
 
 function setupEpisodeFilters() {
     const seasonFilter = document.getElementById('seasonFilter');
-    const searchInput = document.getElementById('episodeSearch');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
 
@@ -514,20 +484,6 @@ function setupEpisodeFilters() {
         });
     }
 
-    if (searchInput) {
-        searchInput.addEventListener('input', debounce(async (e) => {
-            const query = e.target.value.trim();
-            if (query.length >= 2) {
-                const results = await fetchAPI(`/search?q=${encodeURIComponent(query)}`);
-                if (results && results.episodes.length > 0) {
-                    const container = document.getElementById('episodesContainer');
-                    displayEpisodes(results.episodes, container);
-                }
-            } else if (query.length === 0) {
-                loadEpisodes();
-            }
-        }, 300));
-    }
 }
 
 function updatePagination(itemCount) {
@@ -540,150 +496,3 @@ function updatePagination(itemCount) {
     if (pageInfo) pageInfo.textContent = `Page ${currentPage}`;
 }
 
-// Utility function for debouncing
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Helper functions for turtle modal
-function getWeaponStats(weapon) {
-    const stats = {
-        'Katana': { power: 85, speed: 90, range: 70 },
-        'Bo Staff': { power: 70, speed: 75, range: 95 },
-        'Sai': { power: 80, speed: 85, range: 50 },
-        'Nunchucks': { power: 75, speed: 95, range: 60 }
-    };
-    return stats[weapon] || { power: 50, speed: 50, range: 50 };
-}
-
-function createParticles(color) {
-    const container = document.querySelector('.turtle-particles');
-    if (!container) return;
-    
-    container.innerHTML = '';
-    const colors = {
-        'blue': '#1e3a8a',
-        'purple': '#7c3aed',
-        'red': '#dc2626',
-        'orange': '#f97316'
-    };
-    
-    for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.background = colors[color];
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 2 + 's';
-        particle.style.animationDuration = (2 + Math.random() * 3) + 's';
-        container.appendChild(particle);
-    }
-}
-
-function playTurtleSound(turtleName) {
-    // Simulate sound effect with visual feedback
-    const btn = event.target;
-    btn.textContent = '🎵 ' + (turtleName === 'michelangelo' ? 'COWABUNGA!' : 'TURTLE POWER!');
-    btn.disabled = true;
-    
-    setTimeout(() => {
-        btn.textContent = '🔊 Hear Battle Cry!';
-        btn.disabled = false;
-    }, 2000);
-}
-
-// Setup modal close handlers
-document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('turtleModal');
-    const closeBtn = document.querySelector('.close-modal');
-    
-    if (closeBtn) {
-        closeBtn.onclick = () => {
-            modal.classList.remove('show');
-            setTimeout(() => modal.style.display = 'none', 300);
-        };
-    }
-    
-    if (modal) {
-        window.onclick = (event) => {
-            if (event.target === modal) {
-                modal.classList.remove('show');
-                setTimeout(() => modal.style.display = 'none', 300);
-            }
-        };
-    }
-});
-
-// Helper functions for villain modal
-function getVillainThreatLevel(name) {
-    const levels = {
-        'shredder': { power: 90, intelligence: 85, danger: 95 },
-        'krang': { power: 80, intelligence: 95, danger: 90 },
-        'bebop': { power: 85, intelligence: 40, danger: 70 },
-        'rocksteady': { power: 90, intelligence: 35, danger: 75 },
-        'baxter_stockman': { power: 60, intelligence: 90, danger: 80 }
-    };
-    return levels[name] || { power: 50, intelligence: 50, danger: 50 };
-}
-
-function getVillainType(name) {
-    const types = {
-        'shredder': 'Martial Artist',
-        'krang': 'Alien Warlord',
-        'bebop': 'Mutant',
-        'rocksteady': 'Mutant',
-        'baxter_stockman': 'Mad Scientist'
-    };
-    return types[name] || 'Unknown';
-}
-
-function createVillainParticles() {
-    const container = document.querySelector('.villain-particles');
-    if (!container) return;
-    
-    container.innerHTML = '';
-    const colors = ['#dc2626', '#991b1b', '#7f1d1d', '#450a0a'];
-    
-    for (let i = 0; i < 30; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle villain-particle';
-        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 3 + 's';
-        particle.style.animationDuration = (3 + Math.random() * 4) + 's';
-        container.appendChild(particle);
-    }
-}
-
-function playVillainSound(villainName) {
-    const btn = event.target;
-    const laughs = {
-        'shredder': 'MWAHAHAHA!',
-        'krang': 'SCREEEECH!',
-        'bebop': 'SNORT SNORT!',
-        'rocksteady': 'GRAAAHH!',
-        'baxter_stockman': 'BZZZZZZ!'
-    };
-    
-    btn.textContent = '😈 ' + (laughs[villainName] || 'EVIL LAUGH!');
-    btn.disabled = true;
-    
-    // Add shake animation to modal
-    const modal = document.querySelector('.villain-modal-hero');
-    if (modal) {
-        modal.style.animation = 'shake 0.5s';
-        setTimeout(() => modal.style.animation = '', 500);
-    }
-    
-    setTimeout(() => {
-        btn.textContent = '⚡ Activate Evil Laugh!';
-        btn.disabled = false;
-    }, 2500);
-}

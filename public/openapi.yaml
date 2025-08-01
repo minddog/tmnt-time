@@ -332,10 +332,10 @@ components:
       type: object
       required:
         - name
-        - real_name
         - description
         - abilities
         - first_appearance
+        - threat_level
         - image_url
       properties:
         name:
@@ -344,6 +344,7 @@ components:
           example: shredder
         real_name:
           type: string
+          nullable: true
           description: Character's real name
           example: Oroku Saki
         description:
@@ -360,6 +361,11 @@ components:
           type: string
           description: First episode appearance
           example: "Episode 1: Turtle Tracks"
+        threat_level:
+          type: string
+          description: Danger level assessment
+          enum: [Low, Moderate, High, Extreme]
+          example: Extreme
         arch_enemy_of:
           type: string
           nullable: true
@@ -416,15 +422,9 @@ components:
     Quote:
       type: object
       required:
-        - id
         - text
         - character
-        - context
       properties:
-        id:
-          type: integer
-          description: Unique quote ID
-          example: 1
         text:
           type: string
           description: The quote text
@@ -439,6 +439,7 @@ components:
           description: Episode reference
         context:
           type: string
+          nullable: true
           description: Context or situation
           example: Battle cry
 

@@ -24,6 +24,11 @@ class Villain(BaseModel):
     image_url: Optional[str] = None
 
 
+class CastMember(BaseModel):
+    character_name: str
+    voice_actor: str
+    role: str  # "main", "guest", "recurring"
+
 class Episode(BaseModel):
     id: int
     title: str
@@ -32,6 +37,10 @@ class Episode(BaseModel):
     air_date: Optional[str] = None
     synopsis: str
     villains_featured: List[str] = []
+    cast: List[CastMember] = []
+    writer: Optional[str] = None
+    director: Optional[str] = None
+    notes: Optional[str] = None
 
 
 class Quote(BaseModel):

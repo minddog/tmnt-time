@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Episode Details - TMNT Hub</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">TMNT HUB</div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/pages/turtles.html" class="nav-link">Turtles</a></li>
+                <li><a href="/pages/villains.html" class="nav-link">Villains</a></li>
+                <li><a href="/pages/episodes.html" class="nav-link">Episodes</a></li>
+                <li><a href="/pages/api-docs.html" class="nav-link">API Docs</a></li>
+                <li><a href="/pages/support.html" class="nav-link">Support</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container page-content">
+        <div class="back-button-container">
+            <a href="/pages/episodes.html" class="btn btn-secondary">
+                <span>← Back to Episodes</span>
+            </a>
+        </div>
+
+        <div id="episodeDetailContainer" class="episode-detail-container">
+            <!-- Episode details will be loaded here -->
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 TMNT Hub. Turtle Power!</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script>
+        // Get episode ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const episodeId = urlParams.get('id');
+        
+        // Load episode details
+        async function loadEpisodeDetail() {
+            if (!episodeId) {
+                document.getElementById('episodeDetailContainer').innerHTML = `
+                    <div class="error-message">
+                        <h2>Episode not found</h2>
+                        <p>Please select an episode from the <a href="/pages/episodes.html">episodes list</a>.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const episode = await fetchAPI(`/episodes/${episodeId}`);
+            
+            if (!episode) {
+                document.getElementById('episodeDetailContainer').innerHTML = `
+                    <div class="error-message">
+                        <h2>Episode not found</h2>
+                        <p>Episode ${episodeId} could not be loaded.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Update page title
+            document.title = `${episode.title} - TMNT Hub`;
+
+            // Display episode details
+            displayEpisodeDetail(episode);
+        }
+
+        function displayEpisodeDetail(episode) {
+            const container = document.getElementById('episodeDetailContainer');
+            
+            // Generate cast list HTML
+            const castListHTML = episode.cast && episode.cast.length > 0 ? `
+                <div class="detail-section">
+                    <h2>Voice Cast</h2>
+                    <div class="cast-grid large">
+                        ${episode.cast.map(member => `
+                            <div class="cast-member-card ${member.role}">
+                                <div class="cast-member-content">
+                                    <h3 class="character-name">${member.character_name}</h3>
+                                    <p class="voice-actor">Voiced by: ${member.voice_actor}</p>
+                                    <span class="role-badge large">${member.role}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : '';
+
+            container.innerHTML = `
+                <div class="episode-detail-header">
+                    <h1>${episode.title}</h1>
+                    <div class="episode-meta-info">
+                        <span class="episode-badge large">Season ${episode.season}, Episode ${episode.episode_number}</span>
+                        ${episode.air_date ? `<span class="air-date large">Aired: ${episode.air_date}</span>` : ''}
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h2>Synopsis</h2>
+                    <p class="synopsis-text">${episode.synopsis}</p>
+                </div>
+                
+                ${episode.villains_featured && episode.villains_featured.length > 0 ? `
+                    <div class="detail-section">
+                        <h2>Featured Villains</h2>
+                        <div class="villains-list">
+                            ${episode.villains_featured.map(villain => 
+                                `<span class="villain-tag extra-large">${villain}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                ${castListHTML}
+                
+                ${episode.writer || episode.director ? `
+                    <div class="detail-section">
+                        <h2>Production Credits</h2>
+                        <div class="credits-grid">
+                            ${episode.writer ? `
+                                <div class="credit-item">
+                                    <h3>Written by</h3>
+                                    <p>${episode.writer}</p>
+                                </div>
+                            ` : ''}
+                            ${episode.director ? `
+                                <div class="credit-item">
+                                    <h3>Directed by</h3>
+                                    <p>${episode.director}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                ${episode.notes ? `
+                    <div class="detail-section">
+                        <h2>Production Notes</h2>
+                        <div class="notes-content">
+                            <p>${episode.notes}</p>
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        // Load episode detail on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadEpisodeDetail();
+        });
+    </script>
+</body>
+</html>

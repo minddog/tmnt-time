@@ -150,13 +150,30 @@ h1, h2, h3 {
 .btn {
     padding: 0.75rem 1.5rem;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
     display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-text {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-icon {
+    margin-left: 0.5rem;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.btn:hover .btn-icon {
+    transform: scale(1.2);
 }
 
 .btn-primary {
@@ -444,60 +461,123 @@ h1, h2, h3 {
 
 .turtles-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 2rem auto;
 }
 
 .turtle-card {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 2rem;
-    text-align: center;
-    border: 2px solid transparent;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     cursor: pointer;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    min-height: 180px;
 }
 
-.turtle-image, .villain-image {
-    width: 100%;
-    max-width: 200px;
-    height: 200px;
+/* Turtle Image Styles */
+.turtle-image-container {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.leonardo .turtle-image-container {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.2), rgba(33, 150, 243, 0.1));
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.donatello .turtle-image-container {
+    background: linear-gradient(135deg, rgba(156, 39, 176, 0.2), rgba(156, 39, 176, 0.1));
+    box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+}
+
+.raphael .turtle-image-container {
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.2), rgba(244, 67, 54, 0.1));
+    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+}
+
+.michelangelo .turtle-image-container {
+    background: linear-gradient(135deg, rgba(255, 152, 0, 0.2), rgba(255, 152, 0, 0.1));
+    box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+}
+
+.turtle-image {
+    width: 80%;
+    height: 80%;
     object-fit: contain;
-    margin: 0 auto 1rem;
-    display: block;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.02);
-    padding: 10px;
-    transition: transform 0.3s ease;
+}
+
+.turtle-info {
+    flex: 1;
 }
 
 .turtle-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
-.turtle-card:hover .turtle-image,
-.villain-card:hover .villain-image {
-    transform: scale(1.05);
+.turtle-card.leonardo:hover { 
+    border-color: var(--leo-blue);
+    box-shadow: 0 10px 30px rgba(33, 150, 243, 0.3);
 }
-
-.turtle-card.leonardo { border-color: var(--leo-blue); }
-.turtle-card.donatello { border-color: var(--don-purple); }
-.turtle-card.raphael { border-color: var(--raph-red); }
-.turtle-card.michelangelo { border-color: var(--mike-orange); }
+.turtle-card.donatello:hover { 
+    border-color: var(--don-purple);
+    box-shadow: 0 10px 30px rgba(156, 39, 176, 0.3);
+}
+.turtle-card.raphael:hover { 
+    border-color: var(--raph-red);
+    box-shadow: 0 10px 30px rgba(244, 67, 54, 0.3);
+}
+.turtle-card.michelangelo:hover { 
+    border-color: var(--mike-orange);
+    box-shadow: 0 10px 30px rgba(255, 152, 0, 0.3);
+}
 
 .turtle-card h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.turtle-card p {
+    margin: 0.5rem 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+}
+
+.turtle-card p strong {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.turtle-card p em {
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
 }
 
 .turtle-card .color-badge {
     display: inline-block;
-    padding: 0.25rem 1rem;
-    border-radius: 20px;
+    padding: 0.2rem 0.8rem;
+    border-radius: 15px;
     color: white;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .color-badge.blue { background-color: var(--leo-blue); }
@@ -512,8 +592,10 @@ h1, h2, h3 {
 
 .villains-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 2rem auto;
 }
 
 .villain-card {
@@ -523,6 +605,44 @@ h1, h2, h3 {
     padding: 2rem;
     transition: all 0.3s ease;
     cursor: pointer;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+/* Villain Image Styles */
+.villain-image-container {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(74, 20, 140, 0.3), rgba(74, 20, 140, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(74, 20, 140, 0.3);
+}
+
+.villain-image {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.villain-info {
+    flex: 1;
+}
+
+.villain-info h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.villain-info p {
+    margin: 0.5rem 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
 }
 
 .villain-card:hover {
@@ -548,6 +668,23 @@ h1, h2, h3 {
     font-size: 0.875rem;
 }
 
+.threat-level {
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.threat-extreme {
+    color: #ff1744;
+}
+
+.threat-high {
+    color: #ff9100;
+}
+
+.threat-moderate {
+    color: #ffc400;
+}
+
 /* Modal */
 .modal {
     display: none;
@@ -557,30 +694,583 @@ h1, h2, h3 {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
 }
 
 .modal-content {
-    background-color: var(--bg-dark);
+    background-color: #242424;
     margin: 5% auto;
-    padding: 2rem;
-    border: 2px solid var(--shredder-purple);
-    border-radius: 8px;
+    padding: 0;
+    border: 2px solid rgba(74, 20, 140, 0.6);
+    border-radius: 15px;
     width: 90%;
-    max-width: 600px;
+    max-width: 700px;
     position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(74, 20, 140, 0.3);
+    animation: slideUp 0.3s ease;
+    overflow: hidden;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .close {
-    color: var(--text-light);
-    float: right;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: rgba(255, 255, 255, 0.6);
     font-size: 2rem;
     font-weight: bold;
     cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    z-index: 10;
 }
 
 .close:hover {
-    color: var(--shredder-purple);
+    color: #fff;
+    background: var(--shredder-purple);
+    transform: rotate(90deg);
+}
+
+/* Modal Body Content */
+#villainModalContent {
+    padding: 0;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(74, 20, 140, 0.4), rgba(74, 20, 140, 0.2));
+    border-bottom: 2px solid rgba(74, 20, 140, 0.5);
+}
+
+.modal-villain-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(74, 20, 140, 0.3);
+}
+
+.modal-villain-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.modal-villain-title {
+    flex: 1;
+}
+
+.modal-villain-title h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.modal-villain-title p {
+    color: rgba(255, 255, 255, 0.9);
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+.modal-body {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.modal-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 1px solid rgba(74, 20, 140, 0.2);
+}
+
+.modal-section h3 {
+    color: #fff;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.modal-section p {
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.8;
+    font-size: 1.05rem;
+}
+
+.modal-section p strong {
+    color: #fff;
+    font-weight: 600;
+}
+
+.modal-abilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.modal-abilities .ability-tag {
+    background: rgba(74, 20, 140, 0.6);
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Turtle Modal Styles */
+.turtle-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.turtle-modal-header.leonardo {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.4), rgba(33, 150, 243, 0.2));
+    border-bottom-color: rgba(33, 150, 243, 0.5);
+}
+
+.turtle-modal-header.donatello {
+    background: linear-gradient(135deg, rgba(156, 39, 176, 0.4), rgba(156, 39, 176, 0.2));
+    border-bottom-color: rgba(156, 39, 176, 0.5);
+}
+
+.turtle-modal-header.raphael {
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.4), rgba(244, 67, 54, 0.2));
+    border-bottom-color: rgba(244, 67, 54, 0.5);
+}
+
+.turtle-modal-header.michelangelo {
+    background: linear-gradient(135deg, rgba(255, 152, 0, 0.4), rgba(255, 152, 0, 0.2));
+    border-bottom-color: rgba(255, 152, 0, 0.5);
+}
+
+.modal-turtle-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.modal-turtle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.modal-turtle-title {
+    flex: 1;
+}
+
+.modal-turtle-title h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.modal-turtle-title .color-badge {
+    font-size: 1rem;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.catchphrase {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Episode Modal Styles */
+.episode-modal-header {
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.4), rgba(76, 175, 80, 0.2));
+    border-bottom: 2px solid rgba(76, 175, 80, 0.5);
+}
+
+.episode-modal-info h2 {
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.episode-meta {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.episode-badge {
+    background: var(--tmnt-green);
+    color: #fff;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.air-date {
+    color: rgba(255, 255, 255, 0.9);
+    font-style: italic;
+}
+
+/* Cast Grid */
+.cast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.cast-member {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    transition: all 0.3s ease;
+}
+
+.cast-member:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cast-member.main {
+    border-color: var(--tmnt-green);
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.cast-member.recurring {
+    border-color: var(--leo-blue);
+    background: rgba(33, 150, 243, 0.1);
+}
+
+.cast-member.guest {
+    border-color: var(--mike-orange);
+    background: rgba(255, 152, 0, 0.1);
+}
+
+.character-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.voice-actor {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.role-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.cast-member.main .role-badge {
+    background: var(--tmnt-green);
+}
+
+.cast-member.recurring .role-badge {
+    background: var(--leo-blue);
+}
+
+.cast-member.guest .role-badge {
+    background: var(--mike-orange);
+}
+
+.modal-villains {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.villain-tag.large {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+
+/* Episode card hover effect */
+.episode-card {
+    cursor: default;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.episode-card:hover {
+    background-color: rgba(76, 175, 80, 0.05);
+    border-left-color: var(--tmnt-green);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.episode-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.view-details-btn {
+    background-color: var(--tmnt-green);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.view-details-btn:hover {
+    background-color: var(--tmnt-dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.quick-view-btn {
+    background-color: transparent;
+    color: var(--tmnt-green);
+    border: 2px solid var(--tmnt-green);
+}
+
+.quick-view-btn:hover {
+    background-color: var(--tmnt-green);
+    color: white;
+}
+
+/* Episode Detail Page Styles */
+.back-button-container {
+    margin-bottom: 2rem;
+}
+
+.episode-detail-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.episode-detail-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid rgba(76, 175, 80, 0.3);
+}
+
+.episode-detail-header h1 {
+    font-size: 3rem;
+    color: var(--tmnt-green);
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.episode-meta-info {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.episode-badge.large {
+    font-size: 1.1rem;
+    padding: 0.6rem 1.5rem;
+}
+
+.air-date.large {
+    font-size: 1.1rem;
+}
+
+.detail-section {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.detail-section h2 {
+    color: var(--tmnt-green);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.synopsis-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.villains-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.villain-tag.extra-large {
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.cast-grid.large {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.cast-member-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 2px solid rgba(76, 175, 80, 0.3);
+    transition: all 0.3s ease;
+}
+
+.cast-member-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cast-member-card.main {
+    border-color: var(--tmnt-green);
+    background: rgba(76, 175, 80, 0.15);
+}
+
+.cast-member-card.recurring {
+    border-color: var(--leo-blue);
+    background: rgba(33, 150, 243, 0.15);
+}
+
+.cast-member-card.guest {
+    border-color: var(--mike-orange);
+    background: rgba(255, 152, 0, 0.15);
+}
+
+.cast-member-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+}
+
+.cast-member-content .voice-actor {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.role-badge.large {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.8rem;
+}
+
+.credits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.credit-item h3 {
+    color: var(--tmnt-green);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.credit-item p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.notes-content {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.notes-content p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.error-message {
+    text-align: center;
+    padding: 3rem;
+    background: rgba(244, 67, 54, 0.1);
+    border: 2px solid rgba(244, 67, 54, 0.3);
+    border-radius: 15px;
+}
+
+.error-message h2 {
+    color: var(--raph-red);
+    margin-bottom: 1rem;
+}
+
+.error-message a {
+    color: var(--tmnt-green);
+    text-decoration: underline;
 }
 
 /* Episodes Page */
@@ -796,478 +1486,46 @@ h1, h2, h3 {
         width: 100%;
     }
     
+    .turtle-card,
+    .villain-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .turtle-info,
+    .villain-info {
+        text-align: center;
+    }
+    
+    .turtle-image-container,
+    .villain-image-container {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 1rem;
+    }
+    
+    .turtle-card,
+    .villain-card {
+        padding: 1rem;
+        min-height: auto;
+    }
+    
     /* Modal responsive */
     .modal-content {
-        width: 95%;
         margin: 10% auto;
+        width: 95%;
     }
     
-    .turtle-modal-hero {
-        padding: 2rem 1rem;
+    .modal-header {
+        flex-direction: column;
+        text-align: center;
     }
     
-    .turtle-modal-image {
-        width: 180px;
-        height: 180px;
-    }
-    
-    .turtle-modal-name {
+    .modal-villain-title h2 {
         font-size: 2rem;
     }
     
-    .turtle-stats {
-        flex-direction: column;
-        gap: 1rem;
+    .modal-villain-image {
+        margin: 0 auto;
     }
 }
-/* Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.modal.show {
-    opacity: 1;
-}
-
-.modal-content {
-    background: var(--card-bg);
-    margin: 5% auto;
-    padding: 0;
-    border-radius: 20px;
-    max-width: 800px;
-    width: 90%;
-    position: relative;
-    transform: scale(0.8);
-    transition: transform 0.3s ease;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-.modal.show .modal-content {
-    transform: scale(1);
-}
-
-.close-modal {
-    color: #aaa;
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    font-size: 35px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 10;
-    transition: color 0.3s;
-}
-
-.close-modal:hover {
-    color: white;
-}
-
-/* Turtle Modal Content */
-.turtle-modal-hero {
-    position: relative;
-    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
-    padding: 3rem;
-    text-align: center;
-    overflow: hidden;
-}
-
-.turtle-modal-hero.leonardo { background-color: rgba(30, 58, 138, 0.2); }
-.turtle-modal-hero.donatello { background-color: rgba(124, 58, 237, 0.2); }
-.turtle-modal-hero.raphael { background-color: rgba(220, 38, 38, 0.2); }
-.turtle-modal-hero.michelangelo { background-color: rgba(249, 115, 22, 0.2); }
-
-.turtle-modal-image {
-    width: 250px;
-    height: 250px;
-    object-fit: contain;
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-}
-
-.turtle-particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
-}
-
-.particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    opacity: 0;
-    animation: particle-rise 3s linear infinite;
-}
-
-@keyframes particle-rise {
-    0% {
-        opacity: 0;
-        transform: translateY(100px) scale(0);
-    }
-    20% {
-        opacity: 1;
-        transform: translateY(80px) scale(1);
-    }
-    80% {
-        opacity: 1;
-        transform: translateY(-80px) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-100px) scale(0);
-    }
-}
-
-.turtle-modal-details {
-    padding: 2rem;
-}
-
-.turtle-modal-name {
-    font-size: 3rem;
-    margin: 0;
-    font-family: "Bebas Neue", cursive;
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.turtle-modal-badge {
-    display: inline-block;
-    padding: 0.5rem 1.5rem;
-    border-radius: 25px;
-    font-weight: bold;
-    margin: 1rem 0;
-    color: white;
-}
-
-.turtle-modal-badge.blue { background: var(--leo-blue); }
-.turtle-modal-badge.purple { background: var(--don-purple); }
-.turtle-modal-badge.red { background: var(--raph-red); }
-.turtle-modal-badge.orange { background: var(--mike-orange); }
-
-.turtle-stats {
-    display: flex;
-    gap: 2rem;
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-}
-
-.stat-item {
-    flex: 1;
-    text-align: center;
-}
-
-.stat-label {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-}
-
-.stat-value {
-    display: block;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.weapon-abilities {
-    margin: 2rem 0;
-}
-
-.weapon-abilities h3 {
-    margin-bottom: 1rem;
-}
-
-.ability-bars {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.ability-bar {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.ability-bar span {
-    min-width: 60px;
-    font-size: 0.9rem;
-}
-
-.bar-bg {
-    flex: 1;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.bar-fill {
-    height: 100%;
-    transition: width 1s ease;
-    border-radius: 5px;
-}
-
-.bar-fill.blue { background: var(--leo-blue); }
-.bar-fill.purple { background: var(--don-purple); }
-.bar-fill.red { background: var(--raph-red); }
-.bar-fill.orange { background: var(--mike-orange); }
-
-.turtle-personality {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin: 2rem 0;
-}
-
-.turtle-catchphrase {
-    font-size: 1.5rem;
-    font-style: italic;
-    text-align: center;
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-    position: relative;
-}
-
-.quote-mark {
-    font-size: 3rem;
-    opacity: 0.3;
-    vertical-align: middle;
-}
-
-.action-btn {
-    display: block;
-    margin: 2rem auto 0;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 30px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.action-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-}
-
-.action-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
-.action-btn.blue { background: var(--leo-blue); }
-.action-btn.purple { background: var(--don-purple); }
-.action-btn.red { background: var(--raph-red); }
-.action-btn.orange { background: var(--mike-orange); }
-
-/* Villain Modal Styles */
-.villain-modal-hero {
-    position: relative;
-    background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
-    padding: 3rem;
-    text-align: center;
-    overflow: hidden;
-}
-
-.villain-modal-hero.shredder { background-color: rgba(156, 163, 175, 0.2); }
-.villain-modal-hero.krang { background-color: rgba(236, 72, 153, 0.2); }
-.villain-modal-hero.bebop { background-color: rgba(139, 69, 19, 0.2); }
-.villain-modal-hero.rocksteady { background-color: rgba(107, 114, 128, 0.2); }
-.villain-modal-hero.baxter_stockman { background-color: rgba(34, 197, 94, 0.2); }
-
-.villain-modal-image {
-    width: 250px;
-    height: 250px;
-    object-fit: contain;
-    animation: menace 4s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(220, 38, 38, 0.5));
-}
-
-@keyframes menace {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    25% { transform: scale(1.05) rotate(-2deg); }
-    75% { transform: scale(1.05) rotate(2deg); }
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    75% { transform: translateX(10px); }
-}
-
-.villain-particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
-}
-
-.villain-particle {
-    animation: villain-float 4s linear infinite;
-}
-
-@keyframes villain-float {
-    0% {
-        opacity: 0;
-        transform: translateY(100px) scale(0) rotate(0deg);
-    }
-    20% {
-        opacity: 1;
-        transform: translateY(80px) scale(1) rotate(180deg);
-    }
-    80% {
-        opacity: 1;
-        transform: translateY(-80px) scale(1) rotate(360deg);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-100px) scale(0) rotate(540deg);
-    }
-}
-
-.villain-modal-details {
-    padding: 2rem;
-}
-
-.villain-modal-name {
-    font-size: 3rem;
-    margin: 0;
-    font-family: 'Bebas Neue', cursive;
-    color: #dc2626;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.villain-modal-badge {
-    display: inline-block;
-    padding: 0.5rem 1.5rem;
-    border-radius: 25px;
-    background: rgba(220, 38, 38, 0.2);
-    border: 2px solid #dc2626;
-    color: #fbbf24;
-    font-weight: bold;
-    margin: 1rem 0;
-}
-
-.villain-stats {
-    display: flex;
-    gap: 2rem;
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background: rgba(220, 38, 38, 0.05);
-    border-radius: 10px;
-    border: 1px solid rgba(220, 38, 38, 0.2);
-}
-
-.threat-assessment {
-    margin: 2rem 0;
-}
-
-.threat-assessment h3 {
-    color: #dc2626;
-    margin-bottom: 1rem;
-}
-
-.bar-fill.villain {
-    background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%);
-    box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
-}
-
-.villain-description {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    border-left: 4px solid #dc2626;
-}
-
-.villain-abilities {
-    margin: 2rem 0;
-}
-
-.villain-abilities h3 {
-    color: #fbbf24;
-    margin-bottom: 1rem;
-}
-
-.abilities-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-}
-
-.ability-tag-modal {
-    background: rgba(220, 38, 38, 0.1);
-    border: 1px solid #dc2626;
-    color: #fbbf24;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-.ability-tag-modal:hover {
-    background: rgba(220, 38, 38, 0.3);
-    transform: translateY(-2px);
-}
-
-.arch-enemy {
-    text-align: center;
-    margin: 2rem 0;
-    padding: 1rem;
-    background: rgba(220, 38, 38, 0.1);
-    border-radius: 10px;
-}
-
-.enemy-label {
-    color: #dc2626;
-    font-weight: bold;
-    margin-right: 1rem;
-}
-
-.enemy-name {
-    color: #fbbf24;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.action-btn.villain {
-    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
-    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
-}
-
-.action-btn.villain:hover:not(:disabled) {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    box-shadow: 0 6px 30px rgba(220, 38, 38, 0.6);
-}
-

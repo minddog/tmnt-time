@@ -4,23 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Episodes - TMNT Hub</title>
-    
-    <!-- OpenGraph Meta Tags -->
-    <meta property="og:title" content="TMNT Episodes - Classic Adventures">
-    <meta property="og:description" content="Explore classic Teenage Mutant Ninja Turtles episodes. From 'Turtle Tracks' to epic battles with Shredder and Krang!">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://vercel-python-nine-tau.vercel.app/pages/episodes.html">
-    <meta property="og:image" content="https://vercel-python-nine-tau.vercel.app/images/og-image.svg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="TMNT API Hub">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="TMNT Episodes - Classic Adventures">
-    <meta name="twitter:description" content="Explore classic TMNT episodes and relive the adventures!">
-    <meta name="twitter:image" content="https://vercel-python-nine-tau.vercel.app/images/og-image.svg">
-    
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,6 +19,7 @@
                 <li><a href="/pages/villains.html" class="nav-link">Villains</a></li>
                 <li><a href="/pages/episodes.html" class="nav-link active">Episodes</a></li>
                 <li><a href="/pages/api-docs.html" class="nav-link">API Docs</a></li>
+                <li><a href="/pages/support.html" class="nav-link">Support</a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -59,9 +43,6 @@
                     <option value="3">Season 3</option>
                 </select>
             </div>
-            <div class="filter-group">
-                <input type="text" id="episodeSearch" class="episode-search" placeholder="Search episodes...">
-            </div>
         </div>
 
         <div id="episodesContainer" class="episodes-list">
@@ -74,6 +55,16 @@
             <button id="nextBtn" class="btn btn-pagination">Next</button>
         </div>
     </main>
+
+    <!-- Episode Modal -->
+    <div id="episodeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="episodeModalContent">
+                <!-- Episode details will be loaded here -->
+            </div>
+        </div>
+    </div>
 
     <footer class="footer">
         <div class="footer-content">

@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TMNT Hub - Teenage Mutant Ninja Turtles</title>
+    <title>TMNT API - The Ultimate Turtle Power API</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/homepage-animations.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">TMNT HUB</div>
+            <div class="nav-logo animated-logo">
+                <span class="logo-text">TMNT</span>
+                <span class="logo-api">API</span>
+            </div>
             <ul class="nav-menu">
                 <li><a href="/" class="nav-link active">Home</a></li>
                 <li><a href="/pages/turtles.html" class="nav-link">Turtles</a></li>
@@ -29,62 +33,267 @@
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">TEENAGE MUTANT NINJA TURTLES</h1>
-            <p class="hero-subtitle">Heroes in a Half Shell - Turtle Power!</p>
-            <div class="hero-buttons">
-                <a href="/pages/turtles.html" class="btn btn-primary">Meet the Turtles</a>
-                <button class="btn btn-secondary" id="randomQuoteBtn">Random Quote</button>
-            </div>
-            <div id="quoteDisplay" class="quote-display"></div>
+    <header class="hero animated-hero">
+        <div class="hero-background">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
         </div>
-        <div class="hero-image">
-            <div class="turtle-grid">
-                <div class="turtle-mask leo"></div>
-                <div class="turtle-mask don"></div>
-                <div class="turtle-mask raph"></div>
-                <div class="turtle-mask mike"></div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title glitch" data-text="TURTLE POWER API">
+                <span class="title-word">TURTLE</span>
+                <span class="title-word">POWER</span>
+                <span class="title-word">API</span>
+            </h1>
+            <p class="hero-subtitle typewriter">The ultimate REST API for all things TMNT</p>
+            
+            <div class="hero-buttons">
+                <button class="btn btn-primary pulse" id="tryApiBtn">
+                    <span class="btn-text">Try Live API</span>
+                    <span class="btn-icon">⚡</span>
+                </button>
+                <a href="/pages/api-docs.html" class="btn btn-secondary glow">
+                    <span class="btn-text">View Docs</span>
+                    <span class="btn-icon">📚</span>
+                </a>
+            </div>
+            
+            <div class="floating-turtles">
+                <div class="floating-turtle leo-float">
+                    <div class="turtle-shell">L</div>
+                </div>
+                <div class="floating-turtle don-float">
+                    <div class="turtle-shell">D</div>
+                </div>
+                <div class="floating-turtle raph-float">
+                    <div class="turtle-shell">R</div>
+                </div>
+                <div class="floating-turtle mike-float">
+                    <div class="turtle-shell">M</div>
+                </div>
             </div>
         </div>
     </header>
 
     <main class="container">
-        <section class="features">
-            <h2 class="section-title">Explore the TMNT Universe</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon turtle-icon">🐢</div>
-                    <h3>The Turtles</h3>
-                    <p>Learn about Leonardo, Donatello, Raphael, and Michelangelo</p>
-                    <a href="/pages/turtles.html" class="feature-link">Meet the Heroes →</a>
+        <!-- Live API Demo Section -->
+        <section class="api-demo-section">
+            <h2 class="section-title slide-in">
+                <span class="title-icon">🚀</span>
+                Live API Playground
+            </h2>
+            
+            <div class="api-playground">
+                <div class="endpoint-selector">
+                    <button class="endpoint-btn active" data-endpoint="turtles">
+                        <span class="endpoint-icon">🐢</span>
+                        <span>Get Turtles</span>
+                    </button>
+                    <button class="endpoint-btn" data-endpoint="random-quote">
+                        <span class="endpoint-icon">💬</span>
+                        <span>Random Quote</span>
+                    </button>
+                    <button class="endpoint-btn" data-endpoint="villains">
+                        <span class="endpoint-icon">👹</span>
+                        <span>Get Villains</span>
+                    </button>
+                    <button class="endpoint-btn" data-endpoint="weapons">
+                        <span class="endpoint-icon">⚔️</span>
+                        <span>Get Weapons</span>
+                    </button>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon villain-icon">👹</div>
-                    <h3>The Villains</h3>
-                    <p>Discover Shredder, Krang, and the Foot Clan</p>
-                    <a href="/pages/villains.html" class="feature-link">Know Your Enemy →</a>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon episode-icon">📺</div>
-                    <h3>Episodes</h3>
-                    <p>Browse through classic TMNT episodes</p>
-                    <a href="/pages/episodes.html" class="feature-link">Watch Guide →</a>
+                
+                <div class="api-demo-container">
+                    <div class="api-request">
+                        <h3>Request</h3>
+                        <div class="code-block animated-code">
+                            <div class="code-header">
+                                <span class="code-method">GET</span>
+                                <span class="code-url" id="apiUrl">https://www.turtletime.dev/api/v1/turtles</span>
+                                <button class="copy-btn" onclick="copyApiUrl()">📋 Copy</button>
+                            </div>
+                            <pre class="code-example"><code id="codeExample">curl https://www.turtletime.dev/api/v1/turtles</code></pre>
+                        </div>
+                        <button class="execute-btn" id="executeApiBtn">
+                            <span class="execute-icon">▶</span>
+                            <span>Execute Request</span>
+                        </button>
+                    </div>
+                    
+                    <div class="api-response">
+                        <h3>Response</h3>
+                        <div class="response-container">
+                            <div class="response-header">
+                                <span class="status-code" id="statusCode">200 OK</span>
+                                <span class="response-time" id="responseTime"></span>
+                            </div>
+                            <pre class="response-body" id="responseBody"><code>Click "Execute Request" to see the live response...</code></pre>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="weapons-showcase">
-            <h2 class="section-title">Signature Weapons</h2>
-            <div id="weaponsContainer" class="weapons-grid">
-                <!-- Weapons will be loaded here -->
+        <!-- Interactive Examples -->
+        <section class="examples-section">
+            <h2 class="section-title fade-in">
+                <span class="title-icon">✨</span>
+                Interactive Examples
+            </h2>
+            
+            <div class="example-cards">
+                <div class="example-card slide-up" data-delay="0">
+                    <div class="card-header leonardo-theme">
+                        <h3>Get a Specific Turtle</h3>
+                        <span class="card-icon">🔵</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Retrieve detailed information about Leonardo</p>
+                        <div class="mini-code">
+                            <code>GET /api/v1/turtles/leonardo</code>
+                        </div>
+                        <button class="try-btn" onclick="tryExample('turtles/leonardo')">Try it →</button>
+                    </div>
+                </div>
+                
+                <div class="example-card slide-up" data-delay="100">
+                    <div class="card-header donatello-theme">
+                        <h3>Filter Episodes</h3>
+                        <span class="card-icon">🟣</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Get all episodes from Season 1</p>
+                        <div class="mini-code">
+                            <code>GET /api/v1/episodes?season=1</code>
+                        </div>
+                        <button class="try-btn" onclick="tryExample('episodes?season=1')">Try it →</button>
+                    </div>
+                </div>
+                
+                <div class="example-card slide-up" data-delay="200">
+                    <div class="card-header raphael-theme">
+                        <h3>Villain Details</h3>
+                        <span class="card-icon">🔴</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Get information about Shredder</p>
+                        <div class="mini-code">
+                            <code>GET /api/v1/villains/shredder</code>
+                        </div>
+                        <button class="try-btn" onclick="tryExample('villains/shredder')">Try it →</button>
+                    </div>
+                </div>
+                
+                <div class="example-card slide-up" data-delay="300">
+                    <div class="card-header michelangelo-theme">
+                        <h3>Random Quote</h3>
+                        <span class="card-icon">🟠</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Get a random TMNT quote</p>
+                        <div class="mini-code">
+                            <code>GET /api/v1/quotes/random</code>
+                        </div>
+                        <button class="try-btn" onclick="tryExample('quotes/random')">Try it →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <h2 class="section-title zoom-in">
+                <span class="title-icon">🌟</span>
+                Why Choose Our API?
+            </h2>
+            
+            <div class="feature-grid animated-grid">
+                <div class="feature-item rotate-in">
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon">⚡</div>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Powered by Vercel Edge & Convex for ultra-low latency</p>
+                </div>
+                
+                <div class="feature-item rotate-in" data-delay="100">
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon">🔓</div>
+                    </div>
+                    <h3>No Auth Required</h3>
+                    <p>Start using immediately - no API keys needed</p>
+                </div>
+                
+                <div class="feature-item rotate-in" data-delay="200">
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon">📊</div>
+                    </div>
+                    <h3>Rich Data</h3>
+                    <p>Comprehensive TMNT universe data at your fingertips</p>
+                </div>
+                
+                <div class="feature-item rotate-in" data-delay="300">
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon">🌍</div>
+                    </div>
+                    <h3>Global CDN</h3>
+                    <p>Cached worldwide for consistent performance</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Counter -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" data-count="4">0</div>
+                    <div class="stat-label">Turtles</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="5">0</div>
+                    <div class="stat-label">Villains</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="8">0</div>
+                    <div class="stat-label">Quotes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="6">0</div>
+                    <div class="stat-label">Endpoints</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2 class="cta-title bounce-in">Ready to Build Something Awesome?</h2>
+                <p class="cta-subtitle">Start using the TMNT API in your projects today!</p>
+                <div class="cta-buttons">
+                    <a href="/pages/api-docs.html" class="btn btn-primary big-btn">
+                        <span>Get Started</span>
+                        <span class="arrow">→</span>
+                    </a>
+                    <a href="https://github.com/minddog/tmnt-time" target="_blank" class="btn btn-secondary big-btn">
+                        <span>View on GitHub</span>
+                        <span class="arrow">↗</span>
+                    </a>
+                </div>
+            </div>
+            <div class="cta-decoration">
+                <div class="pizza-slice"></div>
+                <div class="pizza-slice"></div>
+                <div class="pizza-slice"></div>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
+    <footer class="footer animated-footer">
         <div class="footer-content">
-            <p>&copy; 2025 TMNT Hub. Cowabunga! 🐢</p>
+            <p>&copy; 2025 TMNT API. Cowabunga! 🐢</p>
             <p class="footer-links">
                 <a href="/pages/api-docs.html">API Docs</a> |
                 <a href="/pages/support.html">Support</a> |
@@ -94,5 +303,6 @@
     </footer>
 
     <script src="/js/app.js"></script>
+    <script src="/js/homepage-animations.js"></script>
 </body>
 </html>

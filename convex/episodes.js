@@ -1,4 +1,4 @@
-import { query } from "./_generated/server";
+import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
 // Get episodes with optional filtering and pagination
@@ -43,5 +43,44 @@ export const getById = query({
     }
     
     return episode;
+  },
+});
+
+// Update episode with cast and production information
+export const updateEpisode = mutation({
+  args: {
+    episode_id: v.number(),
+    cast: v.optional(v.array(v.object({
+      character_name: v.string(),
+      voice_actor: v.string(),
+      role: v.string(),
+    }))),
+    writer: v.optional(v.string()),
+    director: v.optional(v.string()),
+    notes: v.optional(v.string()),
+    villains_featured: v.optional(v.array(v.string())),
+  },
+  handler: async (ctx, args) => {
+    // Find the episode
+    const episode = await ctx.db
+      .query("episodes")
+      .withIndex("by_episode_id", (q) => q.eq("episode_id", args.episode_id))
+      .first();
+    
+    if (!episode) {
+      throw new Error(`Episode ${args.episode_id} not found`);
+    }
+    
+    // Update the episode
+    const updates = {};
+    if (args.cast !== undefined) updates.cast = args.cast;
+    if (args.writer !== undefined) updates.writer = args.writer;
+    if (args.director !== undefined) updates.director = args.director;
+    if (args.notes !== undefined) updates.notes = args.notes;
+    if (args.villains_featured !== undefined) updates.villains_featured = args.villains_featured;
+    
+    await ctx.db.patch(episode._id, updates);
+    
+    return { success: true, episode_id: args.episode_id };
   },
 });

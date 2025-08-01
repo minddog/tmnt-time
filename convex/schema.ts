@@ -30,6 +30,15 @@ export default defineSchema({
     episode_number: v.number(),
     air_date: v.string(),
     synopsis: v.string(),
+    villains_featured: v.optional(v.array(v.string())),
+    cast: v.optional(v.array(v.object({
+      character_name: v.string(),
+      voice_actor: v.string(),
+      role: v.string(),
+    }))),
+    writer: v.optional(v.string()),
+    director: v.optional(v.string()),
+    notes: v.optional(v.string()),
   })
     .index("by_episode_id", ["episode_id"])
     .index("by_season", ["season"]),
