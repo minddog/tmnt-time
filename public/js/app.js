@@ -401,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Episodes page functionality
-let currentView = 'cards'; // Default view
+let currentView = 'table'; // Default view
 
 async function loadEpisodes(season = null, offset = 0) {
     const container = document.getElementById('episodesContainer');
