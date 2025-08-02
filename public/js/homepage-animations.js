@@ -304,6 +304,8 @@ function updateParallax() {
         const x = (window.innerWidth / 2 - mouseX) * speed;
         const y = (window.innerHeight / 2 - mouseY) * speed;
         
+        // Apply transform while preserving the animation transform
+        const currentTransform = window.getComputedStyle(turtle).transform;
         turtle.style.transform = `translate(${x}px, ${y}px)`;
     });
     
