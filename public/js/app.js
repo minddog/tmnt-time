@@ -506,6 +506,9 @@ function displayEpisodesTable(episodes, container) {
                                 <button class="btn btn-small btn-secondary quick-view-btn" data-episode-id="${episode.id || episode.episode_id}">
                                     Quick View
                                 </button>
+                                <a href="/pages/episode-detail.html?id=${episode.id || episode.episode_id}" class="btn btn-small btn-primary">
+                                    Full Details
+                                </a>
                             </td>
                         </tr>
                     `).join('')}
