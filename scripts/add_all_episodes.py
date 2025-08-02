@@ -18,7 +18,8 @@ from dotenv import load_dotenv
 from api.data.episodes import ALL_EPISODES, SEASON_INFO, get_total_episode_count
 
 # Load environment variables
-load_dotenv()
+# Load from .env.local for development database
+load_dotenv('.env.local')
 
 def create_add_mutation():
     """Create the mutation in Convex to add new episodes"""
@@ -67,8 +68,12 @@ export const addEpisode = mutation({
 
 def add_all_episodes(dry_run=True, episodes_to_process=None):
     """Add all TMNT episodes to the database"""
-    # Use production URL
-    convex_url = "https://useful-ptarmigan-757.convex.cloud"
+    # Get Convex URL from environment
+    convex_url = os.getenv('CONVEX_URL')
+    if not convex_url:
+        print("Error: CONVEX_URL not found in environment variables")
+        print("Please set CONVEX_URL in your .env.local file")
+        return
     print(f"Using Convex URL: {convex_url}")
     
     # Connect to Convex

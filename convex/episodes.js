@@ -121,3 +121,12 @@ export const updateEpisode = mutation({
     return { success: true, episode_id: args.episode_id };
   },
 });
+
+// Delete an episode by its Convex ID
+export const deleteById = mutation({
+  args: { id: v.id("episodes") },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.id);
+    return { success: true };
+  },
+});
